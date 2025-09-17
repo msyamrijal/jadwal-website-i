@@ -1,11 +1,12 @@
-const CACHE_NAME = 'jadwal-presentasi-v3'; // Versi cache dinaikkan!
+const CACHE_NAME = 'jadwal-presentasi-v4'; // Versi cache dinaikkan!
 const urlsToCache = [
   '/',
   'index.html',
-  'jadwal.html', // Mengganti rekap.html dengan jadwal.html
+  'jadwal.html',
+  'rekap.html',
   'style.css',
   'script.js',
-  'app.js', // File baru
+  'app.js',
   'rekap.js',
   'site.webmanifest',
   'apple-touch-icon.png',
