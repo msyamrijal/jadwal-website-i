@@ -96,7 +96,6 @@ function displayParticipantDetails(name) {
   const detailsContainer = document.getElementById('participant-details-container');
   const nameHeading = document.getElementById('participant-name-heading');
   const scheduleList = document.getElementById('participant-schedule-list');
-  const scheduleCount = document.getElementById('schedule-count');
   const initialPrompt = document.getElementById('initial-prompt');
  
   // Simpan nama peserta yang dipilih ke localStorage
@@ -108,9 +107,8 @@ function displayParticipantDetails(name) {
   document.getElementById('rekap-search').value = name;
  
   // Isi detail
-  nameHeading.textContent = name;
   const schedules = participantSummary[name];
-  scheduleCount.textContent = `(${schedules.length} jadwal)`;
+  nameHeading.innerHTML = `${name} <small class="schedule-count-badge">(Sisa ${schedules.length})</small>`;
  
   scheduleList.innerHTML = ''; // Kosongkan daftar sebelum mengisi
   schedules.forEach(schedule => {
