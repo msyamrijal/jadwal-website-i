@@ -1,16 +1,24 @@
+let participantSummary = {};
+let allParticipantNames = [];
+let currentCalendarDate = new Date();
+
 document.addEventListener("DOMContentLoaded", () => {
     // Panggil fungsi dari app.js untuk setup PWA dan Service Worker
     if (typeof setupPWA === 'function') setupPWA();
     if (typeof registerServiceWorker === 'function') registerServiceWorker();
     
     loadRekapData();
-    setupRekapSearch();
 });
 
 function loadRekapData() {
     const loadingIndicator = document.getElementById('loading-indicator');
-    const rekapContainer = document.getElementById('rekap-container');
+    const initialPrompt = document.getElementById('initial-prompt');
+    const searchInput = document.getElementById('rekap-search');
+
+    // Sembunyikan prompt dan nonaktifkan input saat memuat
+    initialPrompt.classList.add('hidden');
     loadingIndicator.style.display = 'block';
+    searchInput.disabled = true;
 
     // URL yang sama dengan script utama
     const spreadsheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcEUYNKssh36NHW_Rk7D89EFDt-ZWFdKxQI32L_Q1exbwNhHuGHWKh_W8VFSA8E58vjhVrumodkUv9/pub?gid=0&single=true&output=csv";
@@ -21,16 +29,20 @@ function loadRekapData() {
             return response.text();
         })
         .then(csvData => {
-            const parsedData = parseCSV(csvData);
-            const participantSummary = createParticipantSummary(parsedData);
-            displaySummary(participantSummary);
+            const parsedData = parseCSV(csvData); // Fungsi parseCSV ada di app.js
+            participantSummary = createParticipantSummary(parsedData);
+            allParticipantNames = Object.keys(participantSummary).sort((a, b) => a.localeCompare(b));
+            setupRekapSearch(); // Siapkan pencarian setelah data siap
         })
         .catch(error => {
             console.error("Error fetching data:", error);
-            rekapContainer.innerHTML = `<p style="text-align:center; color: red;">Gagal memuat data rekap.</p>`;
+            document.querySelector('main').innerHTML = `<p style="text-align:center; color: red;">Gagal memuat data rekap.</p>`;
         })
         .finally(() => {
             loadingIndicator.style.display = 'none';
+            initialPrompt.classList.remove('hidden');
+            searchInput.disabled = false;
+            searchInput.focus();
         });
 }
 

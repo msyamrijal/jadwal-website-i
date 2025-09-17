@@ -29,11 +29,22 @@
         <div class="rekap-search-container">
             <input type="text" id="rekap-search" placeholder="Cari nama peserta...">
         </div>
-
+        
+        <!-- Hasil pencarian akan muncul di sini -->
+        <div id="search-results"></div>
+        
         <div id="loading-indicator">Memuat data...</div>
-        <div id="rekap-container" class="rekap-grid">
-            <!-- Konten rekap akan diisi oleh JavaScript -->
+
+        <!-- Kontainer untuk menampilkan detail peserta dan kalender (awalnya tersembunyi) -->
+        <div id="participant-details-container" class="hidden">
+            <h2 id="participant-name-heading"></h2>
+            <div id="calendar-container"></div>
+            <h3>Daftar Jadwal:</h3>
+            <ul id="participant-schedule-list"></ul>
         </div>
+
+        <!-- Pesan awal -->
+        <p id="initial-prompt">Ketik nama peserta di atas untuk melihat rekap jadwal dan kalender.</p>
     </main>
 
     <script src="app.js"></script>
