@@ -209,18 +209,18 @@ main {
 
   .calendar-grid th {
     padding: 8px 2px;
-    font-size: 0.7rem;
+    font-size: 0.65rem; /* Font header hari lebih kecil */
   }
 
   .calendar-grid td {
     padding: 5px 2px;
-    font-size: 0.8rem;
+    font-size: 0.75rem; /* Font angka tanggal lebih kecil */
   }
 
   .calendar-grid .has-schedule {
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
+    width: 24px;   /* Lingkaran penanda lebih kecil */
+    height: 24px;
+    line-height: 24px;
   }
 }
 
