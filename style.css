@@ -1,326 +1,378 @@
- *,
- *::before,
- *::after {
-  box-sizing: border-box;
- }
- 
- :root {
-  /* Palet Warna Baru */
-  --primary-color: #0b435c; /* Biru Tua Elegan */
-  --accent-color: #e26d5b;  /* Oranye Kemerahan sebagai Aksen */
-  --bg-color: #f9f9f9;      /* Latar belakang sedikit off-white */
-  --card-bg: #ffffff;      /* Kartu/Konten tetap putih bersih */
-  --text-color: #333333;   /* Teks lebih gelap untuk kontras */
-  --text-light: #fdfdfd;   /* Teks terang di atas background gelap */
-  --border-color: #e0e0e0; /* Warna border yang lembut */
-  --shadow: 0 5px 20px rgba(0, 0, 0, 0.07); /* Bayangan lebih halus */
- }
- 
- body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  font-weight: 300; /* Menggunakan font yang lebih ringan untuk teks utama */
-  padding: 0;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  line-height: 1.6;
- }
+*,
+*::before,
+*::after {
+ box-sizing: border-box;
+}
 
- header {
-  background-color: var(--primary-color);
-  color: var(--text-light);
-  padding: 1em 0; /* Sedikit lebih banyak padding vertikal */
-  text-align: center;
-  box-shadow: var(--shadow);
-  border-bottom: 3px solid var(--accent-color); /* Aksen di bawah header */
- }
+:root {
+ /* Palet Warna Baru */
+ --primary-color: #0b435c; /* Biru Tua Elegan */
+ --accent-color: #e26d5b;  /* Oranye Kemerahan sebagai Aksen */
+ --bg-color: #f9f9f9;      /* Latar belakang sedikit off-white */
+ --card-bg: #ffffff;      /* Kartu/Konten tetap putih bersih */
+ --text-color: #333333;   /* Teks lebih gelap untuk kontras */
+ --text-light: #fdfdfd;   /* Teks terang di atas background gelap */
+ --border-color: #e0e0e0; /* Warna border yang lembut */
+ --shadow: 0 5px 20px rgba(0, 0, 0, 0.07); /* Bayangan lebih halus */
+}
 
- header h1 {
-  font-family: 'Anton', sans-serif; /* Font baru yang tebal dan tegas */
-  margin: 0;
-  font-size: 1.9rem; /* Ukuran disesuaikan untuk font baru */
-  font-weight: 400; /* Font Anton hanya memiliki weight 400 */
-  color: var(--accent-color);
-  letter-spacing: 1.5px; /* Memberi sedikit ruang antar huruf */
-  text-transform: uppercase; /* Membuat judul menjadi kapital semua */
- }
+body {
+ font-family: 'Poppins', sans-serif;
+ margin: 0;
+ font-weight: 300; /* Menggunakan font yang lebih ringan untuk teks utama */
+ padding: 0;
+ background-color: var(--bg-color);
+ color: var(--text-color);
+ line-height: 1.6;
+}
 
- .header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
- }
+header {
+ background-color: var(--primary-color);
+ color: var(--text-light);
+ padding: 1em 0; /* Sedikit lebih banyak padding vertikal */
+ text-align: center;
+ box-shadow: var(--shadow);
+ border-bottom: 3px solid var(--accent-color); /* Aksen di bawah header */
+}
 
- .install-button {
-    background-color: var(--accent-color);
-    color: var(--text-light);
-    border: none;
-    padding: 8px 18px; /* Padding lebih seimbang */
-    border-radius: 6px; /* Sudut lebih lembut */
-    transition: all 0.3s;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.85em; /* Sedikit lebih kecil */
-    cursor: pointer;
-    margin-right: 15px;
- }
+header h1 {
+ font-family: 'Anton', sans-serif; /* Font baru yang tebal dan tegas */
+ margin: 0;
+ font-size: 1.9rem; /* Ukuran disesuaikan untuk font baru */
+ font-weight: 400; /* Font Anton hanya memiliki weight 400 */
+ color: var(--accent-color);
+ letter-spacing: 1.5px; /* Memberi sedikit ruang antar huruf */
+ text-transform: uppercase; /* Membuat judul menjadi kapital semua */
+}
 
- .install-button:hover {
-    background-color: #c95a4a; /* Warna aksen sedikit lebih gelap saat hover */
-    border-color: #c95a4a;
- }
+.header-content {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ max-width: 1200px;
+ margin: 0 auto;
+ padding: 0 20px;
+}
 
- header nav a {
-  color: var(--text-light); text-decoration: none; border: 1px solid var(--text-light); padding: 7px 18px; border-radius: 6px; transition: all 0.3s; font-size: 0.85em;
- }
- header nav a:hover { background-color: var(--text-light); color: var(--primary-color); }
+.install-button {
+   background-color: var(--accent-color);
+   color: var(--text-light);
+   border: none;
+   padding: 8px 18px; /* Padding lebih seimbang */
+   border-radius: 6px; /* Sudut lebih lembut */
+   transition: all 0.3s;
+   font-family: 'Poppins', sans-serif;
+   font-size: 0.85em; /* Sedikit lebih kecil */
+   cursor: pointer;
+   margin-right: 15px;
+}
 
+.install-button:hover {
+   background-color: #c95a4a; /* Warna aksen sedikit lebih gelap saat hover */
+   border-color: #c95a4a;
+}
+
+header nav a {
+ color: var(--text-light); text-decoration: none; border: 1px solid var(--text-light); padding: 7px 18px; border-radius: 6px; transition: all 0.3s; font-size: 0.85em;
+}
+header nav a:hover { background-color: var(--text-light); color: var(--primary-color); }
+
+main {
+ max-width: 1200px;
+ margin: 40px auto; /* Lebih banyak ruang dari header */
+ padding: 20px; 
+}
+
+.filter-container {
+ display: flex;
+ gap: 10px;
+ margin-bottom: 20px;
+ flex-wrap: wrap;
+ background-color: var(--card-bg);
+ padding: 20px;
+ border-radius: 8px;
+ box-shadow: var(--shadow);
+}
+
+.filter-container input, .filter-container select {
+ padding: 14px;
+ border: 1px solid var(--border-color);
+ border-radius: 8px;
+ flex-grow: 1;
+ font-family: 'Poppins', sans-serif;
+ font-size: 1rem;
+ transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.filter-container input:focus, .filter-container select:focus {
+ outline: none;
+ border-color: var(--accent-color);
+ box-shadow: 0 0 0 3px rgba(226, 109, 91, 0.25);
+}
+
+#jadwal-table {
+ width: 100%;
+ border-collapse: collapse;
+ margin-top: 20px;
+ box-shadow: var(--shadow);
+ background-color: var(--card-bg);
+ border-radius: 8px;
+ overflow: hidden; /* Agar border-radius terlihat di tabel */
+}
+
+#jadwal-table th,
+#jadwal-table td {
+ padding: 15px;
+ text-align: left;
+ border-bottom: 1px solid var(--border-color);
+}
+
+#jadwal-table th {
+ background-color: var(--primary-color);
+ color: var(--text-light);
+ font-weight: 600;
+}
+
+#jadwal-table tbody tr:hover {
+ background-color: #fdf0ed; /* Warna hover sangat lembut dari aksen */
+}
+
+#loading-indicator {
+ text-align: center;
+ padding: 20px;
+ font-size: 1.2em;
+ font-weight: 400;
+ color: var(--accent-color);
+}
+
+/* --- Style untuk Baris yang Bisa Diekspansi --- */
+.summary-row {
+ cursor: pointer;
+ transition: background-color 0.2s ease;
+}
+
+.summary-row:hover {
+ background-color: #fdf0ed; /* Warna hover yang sudah ada */
+}
+
+.detail-row {
+ display: none; /* Sembunyikan secara default */
+}
+
+.detail-row.visible {
+ display: table-row; /* Tampilkan sebagai baris tabel */
+ background-color: #f8f8f8;
+}
+
+.detail-content {
+ padding: 15px 20px 20px 20px;
+}
+
+.detail-content p {
+ margin: 8px 0;
+ font-size: 0.95em;
+}
+
+.detail-content p strong {
+ color: var(--primary-color);
+ min-width: 130px;
+ display: inline-block;
+}
+
+/* Indikator Panah */
+.summary-row td:last-child { position: relative; }
+.summary-row td:last-child::after {
+ content: '▼'; position: absolute; right: 20px; top: 50%;
+ transform: translateY(-50%) rotate(0deg); transition: transform 0.3s ease;
+ font-size: 0.8em; color: var(--accent-color);
+}
+.summary-row.expanded td:last-child::after { transform: translateY(-50%) rotate(180deg); }
+
+/* --- Tampilan Responsif untuk Mobile --- */
+@media screen and (max-width: 768px) {
  main {
-  max-width: 1200px;
-  margin: 40px auto; /* Lebih banyak ruang dari header */
-  padding: 20px; 
+ padding: 10px;
+ margin: 15px auto;
  }
 
- .filter-container {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  background-color: var(--card-bg);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
+ /* Sembunyikan header tabel di mobile, karena kita akan menggunakan model kartu */
+ #jadwal-table thead {
+   display: none;
  }
 
- .filter-container input, .filter-container select {
-  padding: 14px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  flex-grow: 1;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
+ /* Hapus tampilan tabel default di mobile */
+ #jadwal-table, #jadwal-table tbody, #jadwal-table tr, #jadwal-table td {
+ display: block;
+ width: 100%;
  }
 
- .filter-container input:focus, .filter-container select:focus {
-  outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(226, 109, 91, 0.25);
+ #jadwal-table tr {
+ margin-bottom: 15px;
  }
 
- #jadwal-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  box-shadow: var(--shadow);
-  background-color: var(--card-bg);
-  border-radius: 8px;
-  overflow: hidden; /* Agar border-radius terlihat di tabel */
- }
-
- #jadwal-table th,
- #jadwal-table td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid var(--border-color);
- }
-
- #jadwal-table th {
-  background-color: var(--primary-color);
-  color: var(--text-light);
-  font-weight: 600;
- }
-
- #jadwal-table tbody tr:hover {
-  background-color: #fdf0ed; /* Warna hover sangat lembut dari aksen */
- }
-
- #loading-indicator {
-  text-align: center;
-  padding: 20px;
-  font-size: 1.2em;
-  font-weight: 400;
-  color: var(--accent-color);
- }
-
- /* --- Style untuk Baris yang Bisa Diekspansi --- */
+ /* Atur ulang gaya untuk baris ringkasan agar terlihat seperti kartu */
  .summary-row {
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+   border: 1px solid var(--border-color);
+   border-radius: 8px;
+   padding: 10px;
+   box-shadow: var(--shadow);
+   background-color: var(--card-bg);
  }
 
- .summary-row:hover {
-  background-color: #fdf0ed; /* Warna hover yang sudah ada */
+ /* Sembunyikan baris detail di mobile, kita akan gabungkan kontennya */
+ .detail-row { display: none !important; }
+
+ /* Ubah sel menjadi blok */
+ #jadwal-table td {
+   display: block;
+   width: 100%;
+ text-align: right; /* Nilai data di kanan */
+ padding-left: 50%; /* Beri ruang untuk label */
+ position: relative;
+ border-bottom: 1px solid var(--border-color);
+ /* Memaksa teks untuk pindah baris jika terlalu panjang */
+ overflow-wrap: break-word;
+ word-break: break-word;
  }
 
- .detail-row {
-  display: none; /* Sembunyikan secara default */
+ .summary-row td {
+   border: none;
+   padding: 5px 10px;
  }
 
- .detail-row.visible {
-  display: table-row; /* Tampilkan sebagai baris tabel */
-  background-color: #f8f8f8;
+ #jadwal-table td::before {
+ content: attr(data-label); /* Ambil teks dari atribut data-label */
+ position: absolute;
+ left: 15px;
+ width: 45%;
+ padding-right: 10px;
+ text-align: left; /* Label di kiri */
+ font-weight: 600;
+ color: var(--primary-color);
  }
 
- .detail-content {
-  padding: 15px 20px 20px 20px;
- }
+ /* Sembunyikan panah di mobile */
+ .summary-row td:last-child::after { display: none; }
 
- .detail-content p {
-  margin: 8px 0;
-  font-size: 0.95em;
- }
+ #jadwal-table td:last-child { border-bottom: none; }
+}
 
- .detail-content p strong {
-  color: var(--primary-color);
-  min-width: 130px;
-  display: inline-block;
- }
+/* --- Style untuk Pencarian Rekap --- */
+.rekap-search-container {
+ margin-bottom: 20px;
+ position: relative;
+}
 
- /* Indikator Panah */
- .summary-row td:last-child { position: relative; }
- .summary-row td:last-child::after {
-  content: '▼'; position: absolute; right: 20px; top: 50%;
-  transform: translateY(-50%) rotate(0deg); transition: transform 0.3s ease;
-  font-size: 0.8em; color: var(--accent-color);
- }
- .summary-row.expanded td:last-child::after { transform: translateY(-50%) rotate(180deg); }
+.rekap-search-container input {
+ width: 100%;
+ padding: 14px;
+ border: 1px solid var(--border-color);
+ border-radius: 8px;
+ font-family: 'Poppins', sans-serif;
+ transition: border-color 0.3s, box-shadow 0.3s;
+ font-size: 1rem;
+ box-shadow: var(--shadow);
+}
 
- /* --- Tampilan Responsif untuk Mobile --- */
- @media screen and (max-width: 768px) {
-  main {
-  padding: 10px;
-  margin: 15px auto;
-  }
+.rekap-search-container input:focus {
+ outline: none;
+ border-color: var(--accent-color);
+ box-shadow: 0 0 0 3px rgba(226, 109, 91, 0.25);
+}
 
-  /* Sembunyikan header tabel di mobile, karena kita akan menggunakan model kartu */
-  #jadwal-table thead {
-    display: none;
-  }
+#search-results {
+ position: absolute;
+ background-color: var(--card-bg);
+ width: 100%;
+ border: 1px solid var(--border-color);
+ border-radius: 0 0 8px 8px;
+ box-shadow: var(--shadow);
+ margin-top: -8px; /* Sesuaikan agar menempel di bawah input */
+ overflow: hidden;
+ z-index: 10;
+}
 
-  /* Hapus tampilan tabel default di mobile */
-  #jadwal-table, #jadwal-table tbody, #jadwal-table tr, #jadwal-table td {
-  display: block;
-  width: 100%;
-  }
+.search-result-item {
+ padding: 12px 20px;
+ cursor: pointer;
+ transition: background-color 0.2s ease;
+}
 
-  #jadwal-table tr {
-  margin-bottom: 15px;
-  }
+.search-result-item:hover {
+ background-color: #fdf0ed;
+}
 
-  /* Atur ulang gaya untuk baris ringkasan agar terlihat seperti kartu */
-  .summary-row {
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: var(--shadow);
-    background-color: var(--card-bg);
-  }
+.search-result-item:not(:last-child) {
+ border-bottom: 1px solid var(--border-color);
+}
 
-  /* Sembunyikan baris detail di mobile, kita akan gabungkan kontennya */
-  .detail-row { display: none !important; }
+/* --- Style untuk Halaman Rekap --- */
+.hidden { display: none !important; }
+#initial-prompt { text-align: center; color: #777; margin-top: 40px; }
 
-  /* Ubah sel menjadi blok */
-  #jadwal-table td {
-    display: block;
-    width: 100%;
-  text-align: right; /* Nilai data di kanan */
-  padding-left: 50%; /* Beri ruang untuk label */
-  position: relative;
-  border-bottom: 1px solid var(--border-color);
-  /* Memaksa teks untuk pindah baris jika terlalu panjang */
-  overflow-wrap: break-word;
-  word-break: break-word;
-  }
+#participant-details-container {
+ margin-top: 30px;
+}
 
-  .summary-row td {
-    border: none;
-    padding: 5px 10px;
-  }
+#participant-name-heading {
+ color: var(--primary-color);
+ border-bottom: 2px solid var(--accent-color);
+ padding-bottom: 10px;
+ font-size: 1.5rem;
+ font-weight: 600;
+}
 
-  #jadwal-table td::before {
-  content: attr(data-label); /* Ambil teks dari atribut data-label */
-  position: absolute;
-  left: 15px;
-  width: 45%;
-  padding-right: 10px;
-  text-align: left; /* Label di kiri */
-  font-weight: 600;
-  color: var(--primary-color);
-  }
+#participant-schedule-list {
+ list-style-type: none;
+ padding: 0;
+ margin-top: 20px;
+}
 
-  /* Sembunyikan panah di mobile */
-  .summary-row td:last-child::after { display: none; }
+#participant-schedule-list li {
+ background-color: var(--card-bg);
+ padding: 15px;
+ border-radius: 6px;
+ margin-bottom: 10px;
+ border-left: 4px solid var(--accent-color);
+ box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
 
-  #jadwal-table td:last-child { border-bottom: none; }
- }
+#participant-schedule-list .mapel { font-weight: 400; display: block; color: var(--text-color); }
+#participant-schedule-list .tanggal { font-size: 0.85em; color: #7f8c8d; }
 
- /* --- Style untuk Pencarian Rekap --- */
- .rekap-search-container {
-  margin-bottom: 20px;
- }
+/* --- Style untuk Kalender --- */
+#calendar-container {
+ background-color: var(--card-bg);
+ padding: 20px;
+ border-radius: 8px;
+ box-shadow: var(--shadow);
+ margin-bottom: 30px;
+}
 
- .rekap-search-container input {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-family: 'Poppins', sans-serif;
-  transition: border-color 0.3s, box-shadow 0.3s;
-  font-size: 1rem;
-  box-shadow: var(--shadow);
- }
+.calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.calendar-header h3 { margin: 0; color: var(--primary-color); font-size: 1.4rem; }
+.calendar-nav { border: none; background: var(--primary-color); color: white; padding: 5px 12px; border-radius: 5px; cursor: pointer; transition: background-color 0.2s; }
+.calendar-nav:hover { background-color: #083344; } /* Sedikit lebih gelap saat hover */
 
- .rekap-search-container input:focus {
-  outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(226, 109, 91, 0.25);
- }
+.calendar-grid { width: 100%; border-collapse: collapse; text-align: center; }
+.calendar-grid th { padding: 10px; font-weight: 600; color: var(--accent-color); }
+.calendar-grid td { padding: 12px 5px; border: 1px solid var(--border-color); vertical-align: middle; }
+.calendar-grid .other-month { color: #ccc; }
+.calendar-grid .today { font-weight: bold; background-color: #fdf0ed; }
+.calendar-grid .has-schedule {
+ background-color: var(--accent-color);
+ color: white;
+ cursor: pointer;
+ font-weight: bold;
+ border-radius: 50%;
+ width: 35px;
+ height: 35px;
+ line-height: 35px;
+ padding: 0;
+ margin: auto;
+ transition: transform 0.2s;
+}
 
- /* --- Style untuk Halaman Rekap --- */
- .rekap-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
- }
-
- .rekap-card {
-  background-color: var(--card-bg);
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  padding: 20px;
-  overflow: hidden;
- }
-
- .rekap-card h2 {
-  margin-top: 0;
-  color: var(--primary-color);
-  border-bottom: 2px solid var(--accent-color);
-  padding-bottom: 10px;
-  font-size: 1.3rem;
-  font-weight: 600;
- }
-
- .rekap-card:hover {
-  transform: translateY(-5px);
- }
-
- .rekap-card ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
- }
-
- .rekap-card li {
-  padding: 13px 0;
-  border-bottom: 1px solid var(--border-color);
- }
-
- .rekap-card li:last-child { border-bottom: none; }
-
- .rekap-card .mapel { font-weight: 400; display: block; color: var(--text-color); }
-
- .rekap-card .tanggal { font-size: 0.85em; color: #7f8c8d; }
+.calendar-grid .has-schedule:hover {
+ transform: scale(1.1);
+}
