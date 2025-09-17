@@ -44,6 +44,13 @@
   populateInstitutionFilter(allData); // Buat opsi dropdown institusi
   populateSubjectFilter(allData); // Buat opsi dropdown mata pelajaran
   setupFilters(); // Siapkan event listener untuk input filter
+
+  // Muat dan terapkan filter peserta terakhir yang disimpan
+  const savedParticipant = localStorage.getItem('lastParticipantFilter');
+  if (savedParticipant) {
+    document.getElementById('filter-peserta').value = savedParticipant;
+    applyFilters(); // Terapkan filter yang tersimpan saat halaman dimuat
+  }
   })
   .catch(error => {
   console.error("Error fetching data:", error);
@@ -226,7 +233,11 @@ function setupFilters() {
   });
 
   subjectFilter.addEventListener('change', applyFilters);
-  participantFilter.addEventListener('input', applyFilters);
+  
+  participantFilter.addEventListener('input', () => {
+    localStorage.setItem('lastParticipantFilter', participantFilter.value);
+    applyFilters();
+  });
  }
 
  document.addEventListener("DOMContentLoaded", () => {
