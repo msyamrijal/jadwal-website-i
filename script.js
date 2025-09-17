@@ -196,13 +196,28 @@
   if (!pesertaFilter) {
     pesertaMatch = true; // Jika filter peserta kosong, anggap cocok
   } else {
-  for (let i = 1; i <= 12; i++) {
-  const pesertaKey = `Peserta ${i}`;
-  if (row[pesertaKey] && row[pesertaKey].toLowerCase().includes(pesertaFilter)) {
-  pesertaMatch = true;
-  break; // Jika sudah ketemu, hentikan pencarian di kolom peserta lain
-  }
-  }
+    // Cek apakah teks filter adalah nama lengkap yang ada di daftar peserta.
+    const isCompleteName = allParticipantNames.some(name => name.toLowerCase() === pesertaFilter);
+
+    if (isCompleteName) {
+      // Jika nama lengkap, lakukan pencocokan persis (exact match).
+      for (let i = 1; i <= 12; i++) {
+        const pesertaKey = `Peserta ${i}`;
+        if (row[pesertaKey] && row[pesertaKey].toLowerCase() === pesertaFilter) {
+          pesertaMatch = true;
+          break;
+        }
+      }
+    } else {
+      // Jika bukan nama lengkap (sedang mengetik), lakukan pencocokan parsial (substring match).
+      for (let i = 1; i <= 12; i++) {
+        const pesertaKey = `Peserta ${i}`;
+        if (row[pesertaKey] && row[pesertaKey].toLowerCase().includes(pesertaFilter)) {
+          pesertaMatch = true;
+          break;
+        }
+      }
+    }
   }
 
   return institusiMatch && mapelMatch && pesertaMatch;
