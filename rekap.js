@@ -56,8 +56,16 @@ function loadRekapData() {
  
 function createParticipantSummary(data) {
   const summary = {};
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set ke tengah malam untuk perbandingan tanggal yang akurat
  
   data.forEach(row => {
+    const scheduleDate = new Date(row.Tanggal);
+    // Lewati baris ini jika tanggalnya sudah lewat atau tidak valid
+    if (isNaN(scheduleDate.getTime()) || scheduleDate < today) {
+      return;
+    }
+
     const participantKeys = Object.keys(row).filter(key => key.startsWith('Peserta '));
     const allParticipantsInSession = participantKeys.map(k => row[k].trim()).filter(p => p); // Ambil semua nama peserta non-kosong di baris ini
  
@@ -75,7 +83,7 @@ function createParticipantSummary(data) {
  
         summary[name].push({
           subject: row['Mata_Pelajaran'], // Tetap ada untuk kalender
-          date: new Date(row.Tanggal),
+          date: scheduleDate,
           institusi: row.Institusi,
           materi: row['Materi Diskusi'],
           otherParticipants: otherParticipants // Simpan data peserta lain
