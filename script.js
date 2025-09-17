@@ -104,7 +104,10 @@
     detailRow.appendChild(detailCell);
 
     // 3. Tambahkan event listener untuk membuka/menutup detail
-    const toggleDetails = () => detailRow.classList.toggle('visible');
+    const toggleDetails = () => {
+      summaryRow.classList.toggle('expanded');
+      detailRow.classList.toggle('visible');
+    };
     summaryRow.addEventListener('click', toggleDetails);
     summaryRow.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') toggleDetails(); });
 
