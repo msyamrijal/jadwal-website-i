@@ -36,9 +36,13 @@
  }
 
  header h1 {
+  font-family: 'Anton', sans-serif; /* Font baru yang tebal dan tegas */
   margin: 0;
-  font-size: 1.5rem; /* Sedikit lebih kecil agar lebih elegan */
-  font-weight: 600; /* Lebih tebal untuk kontras */
+  font-size: 1.9rem; /* Ukuran disesuaikan untuk font baru */
+  font-weight: 400; /* Font Anton hanya memiliki weight 400 */
+  color: var(--accent-color);
+  letter-spacing: 1.5px; /* Memberi sedikit ruang antar huruf */
+  text-transform: uppercase; /* Membuat judul menjadi kapital semua */
  }
 
  .header-content {
