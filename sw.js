@@ -33,8 +33,22 @@ self.addEventListener('install', event => {
 // Setiap kali halaman meminta sebuah file (gambar, css, dll.), service worker akan mencegatnya.
 self.addEventListener('fetch', event => {
   // Untuk data dari Google Sheets, selalu coba ambil dari internet terlebih dahulu.
+  // Jika gagal (offline), baru ambil dari cache.
   if (event.request.url.includes('docs.google.com')) {
-    event.respondWith(fetch(event.request));
+    event.respondWith(
+      caches.open(CACHE_NAME).then(cache => {
+        return fetch(event.request)
+          .then(response => {
+            // Jika berhasil, simpan response ke cache dan kembalikan
+            cache.put(event.request, response.clone());
+            return response;
+          })
+          .catch(() => {
+            // Jika fetch gagal, coba cari di cache
+            return cache.match(event.request);
+          });
+      })
+    );
     return;
   }
 

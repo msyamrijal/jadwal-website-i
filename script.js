@@ -1,15 +1,4 @@
- let deferredPrompt; // Variabel untuk menyimpan event install
  let allData = []; // Variabel untuk menyimpan semua data asli dari spreadsheet
-
- window.addEventListener('beforeinstallprompt', (e) => {
-  // Mencegah browser menampilkan prompt default
-  e.preventDefault();
-  // Simpan event agar bisa dipanggil nanti
-  deferredPrompt = e;
-  // Tampilkan tombol install kustom kita
-  const installButton = document.getElementById('install-button');
-  if (installButton) installButton.hidden = false;
- });
 
  function loadData() {
   const loadingIndicator = document.getElementById('loading-indicator');
@@ -212,36 +201,9 @@
  }
 
  document.addEventListener("DOMContentLoaded", () => {
+  // Panggil fungsi dari app.js untuk setup PWA dan Service Worker
+  if (typeof setupPWA === 'function') setupPWA();
+  if (typeof registerServiceWorker === 'function') registerServiceWorker();
+
   loadData();
-
-  const installButton = document.getElementById('install-button');
-  if (installButton) {
-    installButton.addEventListener('click', async () => {
-      if (deferredPrompt) {
-        // Tampilkan prompt instalasi
-        deferredPrompt.prompt();
-        // Tunggu respons pengguna
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`Respons pengguna: ${outcome}`);
-        // Kita hanya bisa menggunakan prompt sekali, jadi reset variabelnya
-        deferredPrompt = null;
-        // Sembunyikan tombol setelah digunakan
-        installButton.hidden = true;
-      }
-    });
-  }
-
-  // Daftarkan Service Worker
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-      .then(() => console.log('Service Worker berhasil didaftarkan.'))
-      .catch(error => console.error('Pendaftaran Service Worker gagal:', error));
-  }
- });
-
- window.addEventListener('appinstalled', () => {
-  // Kosongkan deferredPrompt dan sembunyikan tombol jika aplikasi berhasil diinstal
-  deferredPrompt = null;
-  const installButton = document.getElementById('install-button');
-  if (installButton) installButton.hidden = true;
  });
