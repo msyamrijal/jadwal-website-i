@@ -368,9 +368,13 @@ main {
 
 .calendar-grid { width: 100%; border-collapse: collapse; text-align: center; }
 .calendar-grid th { padding: 10px; font-weight: 600; color: var(--accent-color); }
-.calendar-grid td { padding: 12px 5px; border: 1px solid var(--border-color); vertical-align: middle; }
+.calendar-grid td {
+ padding: 12px 5px; border: 1px solid var(--border-color); vertical-align: middle; color: #aaa; /* Warna angka lebih pudar */
+}
 .calendar-grid .other-month { color: #ccc; }
-.calendar-grid .today { font-weight: bold; background-color: #fdf0ed; }
+.calendar-grid .today {
+ font-weight: bold; background-color: #fdf0ed; color: var(--text-color); /* Pastikan tanggal hari ini tetap jelas */
+}
 .calendar-grid .has-schedule {
  color: var(--accent-color);
  cursor: pointer;
