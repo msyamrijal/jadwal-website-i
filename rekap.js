@@ -70,23 +70,23 @@ function createParticipantSummary(data) {
     const summary = {};
 
     data.forEach(row => {
-        for (let i = 1; i <= 10; i++) {
-            const participantName = row[`Peserta ${i}`];
+        const participantKeys = Object.keys(row).filter(key => key.startsWith('Peserta '));
+
+        participantKeys.forEach(key => {
+            const participantName = row[key];
             if (participantName && participantName.trim() !== '') {
                 const name = participantName.trim();
-                
-                // Jika peserta belum ada di rekap, buat entri baru
+
                 if (!summary[name]) {
                     summary[name] = [];
                 }
 
-                // Tambahkan jadwal ke rekap peserta
                 summary[name].push({
                     subject: row['Mata_Pelajaran'],
-                    date: new Date(row.Tanggal) // Simpan sebagai objek Date untuk diurutkan
+                    date: new Date(row.Tanggal)
                 });
             }
-        }
+        });
     });
 
     // Urutkan jadwal setiap peserta berdasarkan tanggal

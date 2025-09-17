@@ -112,16 +112,13 @@
   materiDiskusi.textContent = row['Materi Diskusi']; // Perubahan di sini
   tr.appendChild(materiDiskusi);
   
-  let peserta = "";
-  for(let i = 1; i <= 10; i++){
-  if(row["Peserta " + i]){
-  peserta += row["Peserta " + i] + ", ";
-  }
-  }
+  const pesertaList = Object.keys(row)
+    .filter(key => key.startsWith('Peserta ') && row[key])
+    .map(key => row[key]);
 
   const pesertaTd = document.createElement("td");
   pesertaTd.setAttribute('data-label', 'Peserta');
-  pesertaTd.textContent = peserta.slice(0, -2);
+  pesertaTd.textContent = pesertaList.join(', ');
   tr.appendChild(pesertaTd);
 
   tableBody.appendChild(tr);

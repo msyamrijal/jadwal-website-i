@@ -1,19 +1,20 @@
-const CACHE_NAME = 'jadwal-presentasi-v2'; // Versi cache dinaikkan!
+const CACHE_NAME = 'jadwal-presentasi-v3'; // Versi cache dinaikkan!
 const urlsToCache = [
   '/',
   'index.html',
   'rekap.html',
   'style.css',
   'script.js',
+  'app.js', // File baru
   'rekap.js',
-  // File-file ikon standar dari RealFaviconGenerator
   'site.webmanifest',
   'apple-touch-icon.png',
   'favicon-32x32.png',
   'favicon-16x16.png',
   'favicon.ico',
-  'android-chrome-192x192.png',
-  'android-chrome-512x512.png'
+  // Ikon dari manifest yang sudah dikonsolidasi
+  'icons/icon-192x192.png',
+  'icons/icon-512x512.png'
 ];
 
 // Event: Install
