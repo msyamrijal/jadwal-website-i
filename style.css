@@ -252,6 +252,12 @@ main {
  font-weight: 600;
 }
 
+#participant-details-container h3 {
+ font-family: 'Playfair Display', serif;
+ font-size: 1.5rem;
+ color: var(--primary-color);
+}
+
 #participant-schedule-list {
  list-style-type: none;
  padding: 0;
@@ -259,16 +265,52 @@ main {
 }
 
 #participant-schedule-list li {
- background-color: var(--card-bg);
- padding: 15px;
- border-radius: 6px;
  margin-bottom: 10px;
- border-left: 4px solid var(--accent-color);
+ background-color: var(--card-bg);
+ border-radius: 8px;
  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+ overflow: hidden; /* Penting untuk border-radius */
 }
 
-#participant-schedule-list .mapel { font-weight: 400; display: block; color: var(--text-color); }
-#participant-schedule-list .tanggal { font-size: 0.85em; color: #7f8c8d; }
+.schedule-summary {
+ padding: 15px;
+ cursor: pointer;
+ position: relative;
+ border-left: 4px solid var(--accent-color);
+ transition: background-color 0.2s;
+}
+
+.schedule-summary:hover {
+ background-color: #fdfaf9;
+}
+
+.schedule-summary::after {
+ content: '▼';
+ position: absolute;
+ right: 20px;
+ top: 50%;
+ transform: translateY(-50%) rotate(0deg);
+ transition: transform 0.3s ease;
+ font-size: 0.8em;
+ color: var(--accent-color);
+}
+
+.schedule-summary.expanded::after {
+ transform: translateY(-50%) rotate(180deg);
+}
+
+.schedule-details {
+ display: none; /* Sembunyikan detail secara default */
+ padding: 0 20px 15px 20px;
+ background-color: #f8f8f8;
+ border-top: 1px solid var(--border-color);
+}
+
+.schedule-details.visible {
+ display: block;
+}
+
+#schedule-count { font-size: 1rem; font-weight: 400; color: #777; }
 
 /* --- Style untuk Kalender --- */
 #calendar-container {

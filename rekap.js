@@ -70,8 +70,10 @@ function createParticipantSummary(data) {
         }
  
         summary[name].push({
-          subject: row['Mata_Pelajaran'],
-          date: new Date(row.Tanggal)
+          subject: row['Mata_Pelajaran'], // Tetap ada untuk kalender
+          date: new Date(row.Tanggal),
+          institusi: row.Institusi,
+          materi: row['Materi Diskusi']
         });
       }
     });
@@ -89,6 +91,7 @@ function displayParticipantDetails(name) {
   const detailsContainer = document.getElementById('participant-details-container');
   const nameHeading = document.getElementById('participant-name-heading');
   const scheduleList = document.getElementById('participant-schedule-list');
+  const scheduleCount = document.getElementById('schedule-count');
   const initialPrompt = document.getElementById('initial-prompt');
  
   // Simpan nama peserta yang dipilih ke localStorage
@@ -102,13 +105,38 @@ function displayParticipantDetails(name) {
   // Isi detail
   nameHeading.textContent = name;
   const schedules = participantSummary[name];
+  scheduleCount.textContent = `(${schedules.length} jadwal)`;
  
-  scheduleList.innerHTML = schedules.map(schedule => `
-    <li>
+  scheduleList.innerHTML = ''; // Kosongkan daftar sebelum mengisi
+  schedules.forEach(schedule => {
+    const listItem = document.createElement('li');
+
+    // Bagian ringkasan yang terlihat
+    const summaryDiv = document.createElement('div');
+    summaryDiv.className = 'schedule-summary';
+    summaryDiv.innerHTML = `
       <span class="mapel">${schedule.subject}</span>
       <span class="tanggal">${schedule.date.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
-    </li>
-  `).join('');
+    `;
+
+    // Bagian detail yang tersembunyi
+    const detailDiv = document.createElement('div');
+    detailDiv.className = 'schedule-details';
+    detailDiv.innerHTML = `
+      <p><strong>Institusi:</strong> ${schedule.institusi}</p>
+      <p><strong>Materi Diskusi:</strong> ${schedule.materi}</p>
+    `;
+
+    // Tambahkan event listener untuk membuka/menutup
+    summaryDiv.addEventListener('click', () => {
+      detailDiv.classList.toggle('visible');
+      summaryDiv.classList.toggle('expanded');
+    });
+
+    listItem.appendChild(summaryDiv);
+    listItem.appendChild(detailDiv);
+    scheduleList.appendChild(listItem);
+  });
  
   // Tampilkan kalender dan detail
   currentCalendarDate = new Date(); // Reset ke bulan ini saat memilih peserta baru
