@@ -2,7 +2,7 @@ const CACHE_NAME = 'jadwal-presentasi-v3'; // Versi cache dinaikkan!
 const urlsToCache = [
   '/',
   'index.html',
-  'rekap.html',
+  'jadwal.html', // Mengganti rekap.html dengan jadwal.html
   'style.css',
   'script.js',
   'app.js', // File baru

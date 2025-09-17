@@ -61,25 +61,6 @@
   });
  }
 
- function parseCSV(csvData) {
-  const lines = csvData.split("\n");
-  const headers = lines[0].split(",").map(header => header.trim());
-  const data = [];
-
-  for (let i = 1; i < lines.length; i++) {
-  const values = lines[i].split(",").map(value => value.trim());
-  if (values.length === headers.length) {
-  const entry = {};
-  for (let j = 0; j < headers.length; j++) {
-  entry[headers[j]] = values[j];
-  }
-  data.push(entry);
-  }
-  }
-
-  return data;
- }
-
  function populateTable(data) {
   const tableBody = document.querySelector("#jadwal-table tbody");
   tableBody.innerHTML = ''; // Kosongkan tabel sebelum mengisi data baru
