@@ -59,6 +59,7 @@ function createParticipantSummary(data) {
  
   data.forEach(row => {
     const participantKeys = Object.keys(row).filter(key => key.startsWith('Peserta '));
+    const allParticipantsInSession = participantKeys.map(k => row[k].trim()).filter(p => p); // Ambil semua nama peserta non-kosong di baris ini
  
     participantKeys.forEach(key => {
       const participantName = row[key];
@@ -68,12 +69,16 @@ function createParticipantSummary(data) {
         if (!summary[name]) {
           summary[name] = [];
         }
+
+        // Dapatkan daftar peserta lain di sesi yang sama
+        const otherParticipants = allParticipantsInSession.filter(p => p !== name);
  
         summary[name].push({
           subject: row['Mata_Pelajaran'], // Tetap ada untuk kalender
           date: new Date(row.Tanggal),
           institusi: row.Institusi,
-          materi: row['Materi Diskusi']
+          materi: row['Materi Diskusi'],
+          otherParticipants: otherParticipants // Simpan data peserta lain
         });
       }
     });
@@ -122,9 +127,16 @@ function displayParticipantDetails(name) {
     // Bagian detail yang tersembunyi
     const detailDiv = document.createElement('div');
     detailDiv.className = 'schedule-details';
+
+    let otherParticipantsHTML = '';
+    if (schedule.otherParticipants && schedule.otherParticipants.length > 0) {
+      otherParticipantsHTML = `<p><strong>Peserta Lain:</strong> ${schedule.otherParticipants.join(', ')}</p>`;
+    }
+
     detailDiv.innerHTML = `
       <p><strong>Institusi:</strong> ${schedule.institusi}</p>
       <p><strong>Materi Diskusi:</strong> ${schedule.materi}</p>
+      ${otherParticipantsHTML}
     `;
 
     // Tambahkan event listener untuk membuka/menutup
