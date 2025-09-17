@@ -197,6 +197,31 @@ main {
   .filter-container {
     flex-direction: column;
   }
+
+  /* Perkecil kalender di mobile */
+  #calendar-container {
+    padding: 10px;
+  }
+
+  .calendar-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .calendar-grid th {
+    padding: 8px 2px;
+    font-size: 0.7rem;
+  }
+
+  .calendar-grid td {
+    padding: 5px 2px;
+    font-size: 0.8rem;
+  }
+
+  .calendar-grid .has-schedule {
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+  }
 }
 
 /* --- Style untuk Pencarian Rekap --- */
