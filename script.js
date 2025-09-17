@@ -76,41 +76,52 @@
  function populateTable(data) {
   const tableBody = document.querySelector("#jadwal-table tbody");
   tableBody.innerHTML = ''; // Kosongkan tabel sebelum mengisi data baru
-
+ 
+  if (data.length === 0) {
+    tableBody.innerHTML = `<tr><td colspan="2" style="text-align:center;">Tidak ada jadwal yang cocok dengan filter.</td></tr>`;
+    return;
+  }
+ 
   data.forEach(row => {
-  const tr = document.createElement("tr");
+    // 1. Buat baris ringkasan yang terlihat
+    const summaryRow = document.createElement("tr");
+    summaryRow.className = 'summary-row';
+    summaryRow.setAttribute('role', 'button'); // Baik untuk aksesibilitas
+    summaryRow.setAttribute('tabindex', '0'); // Agar bisa di-fokus dengan keyboard
 
-  const institusi = document.createElement("td");
-  institusi.setAttribute('data-label', 'Institusi');
-  institusi.textContent = row.Institusi;
-  tr.appendChild(institusi);
+    const tanggal = document.createElement("td");
+    tanggal.setAttribute('data-label', 'Tanggal');
+    tanggal.textContent = row.dateObject.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    summaryRow.appendChild(tanggal);
 
-  const mataPelajaran = document.createElement("td");
-  mataPelajaran.setAttribute('data-label', 'Mata Pelajaran');
-  mataPelajaran.textContent = row['Mata_Pelajaran']; // Perubahan di sini
-  tr.appendChild(mataPelajaran);
+    const pesertaList = Object.keys(row).filter(key => key.startsWith('Peserta ') && row[key]).map(key => row[key]);
+    const pesertaTd = document.createElement("td");
+    pesertaTd.setAttribute('data-label', 'Peserta');
+    pesertaTd.textContent = pesertaList.join(', ');
+    summaryRow.appendChild(pesertaTd);
 
-  const tanggal = document.createElement("td");
-  tanggal.setAttribute('data-label', 'Tanggal');
-  // Format tanggal agar lebih mudah dibaca
-  tanggal.textContent = row.dateObject.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-  tr.appendChild(tanggal);
+    // 2. Buat baris detail yang tersembunyi
+    const detailRow = document.createElement("tr");
+    detailRow.className = 'detail-row';
 
-  const materiDiskusi = document.createElement("td");
-  materiDiskusi.setAttribute('data-label', 'Materi Diskusi');
-  materiDiskusi.textContent = row['Materi Diskusi']; // Perubahan di sini
-  tr.appendChild(materiDiskusi);
-  
-  const pesertaList = Object.keys(row)
-    .filter(key => key.startsWith('Peserta ') && row[key])
-    .map(key => row[key]);
+    const detailCell = document.createElement("td");
+    detailCell.colSpan = 2; // Agar mengisi seluruh lebar tabel
+    detailCell.innerHTML = `
+      <div class="detail-content">
+        <p><strong>Institusi:</strong> ${row.Institusi}</p>
+        <p><strong>Mata Pelajaran:</strong> ${row['Mata_Pelajaran']}</p>
+        <p><strong>Materi Diskusi:</strong> ${row['Materi Diskusi']}</p>
+      </div>
+    `;
+    detailRow.appendChild(detailCell);
 
-  const pesertaTd = document.createElement("td");
-  pesertaTd.setAttribute('data-label', 'Peserta');
-  pesertaTd.textContent = pesertaList.join(', ');
-  tr.appendChild(pesertaTd);
+    // 3. Tambahkan event listener untuk membuka/menutup detail
+    const toggleDetails = () => detailRow.classList.toggle('visible');
+    summaryRow.addEventListener('click', toggleDetails);
+    summaryRow.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') toggleDetails(); });
 
-  tableBody.appendChild(tr);
+    tableBody.appendChild(summaryRow);
+    tableBody.appendChild(detailRow);
   });
  }
 
@@ -177,7 +188,7 @@
   // Cek filter peserta di semua kolom peserta
   let pesertaMatch = false;
   if (!pesertaFilter) {
-  pesertaMatch = true; // Jika filter peserta kosong, anggap cocok
+    pesertaMatch = true; // Jika filter peserta kosong, anggap cocok
   } else {
   for (let i = 1; i <= 10; i++) {
   const pesertaKey = `Peserta ${i}`;

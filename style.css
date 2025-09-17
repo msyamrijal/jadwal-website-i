@@ -145,6 +145,49 @@
   color: var(--accent-color);
  }
 
+ /* --- Style untuk Baris yang Bisa Diekspansi --- */
+ .summary-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+ }
+
+ .summary-row:hover {
+  background-color: #fdf0ed; /* Warna hover yang sudah ada */
+ }
+
+ .detail-row {
+  display: none; /* Sembunyikan secara default */
+ }
+
+ .detail-row.visible {
+  display: table-row; /* Tampilkan sebagai baris tabel */
+  background-color: #f8f8f8;
+ }
+
+ .detail-content {
+  padding: 15px 20px 20px 20px;
+ }
+
+ .detail-content p {
+  margin: 8px 0;
+  font-size: 0.95em;
+ }
+
+ .detail-content p strong {
+  color: var(--primary-color);
+  min-width: 130px;
+  display: inline-block;
+ }
+
+ /* Indikator Panah */
+ .summary-row td:last-child { position: relative; }
+ .summary-row td:last-child::after {
+  content: '▼'; position: absolute; right: 20px; top: 50%;
+  transform: translateY(-50%) rotate(0deg); transition: transform 0.3s ease;
+  font-size: 0.8em; color: var(--accent-color);
+ }
+ .summary-row.expanded td:last-child::after { transform: translateY(-50%) rotate(180deg); }
+
  /* --- Tampilan Responsif untuk Mobile --- */
  @media screen and (max-width: 768px) {
   main {
@@ -152,10 +195,12 @@
   margin: 15px auto;
   }
 
+  /* Sembunyikan header tabel di mobile, karena kita akan menggunakan model kartu */
   #jadwal-table thead {
-  display: none; /* Sembunyikan header tabel di mobile */
+    display: none;
   }
 
+  /* Hapus tampilan tabel default di mobile */
   #jadwal-table, #jadwal-table tbody, #jadwal-table tr, #jadwal-table td {
   display: block;
   width: 100%;
@@ -163,11 +208,24 @@
 
   #jadwal-table tr {
   margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
   }
 
+  /* Atur ulang gaya untuk baris ringkasan agar terlihat seperti kartu */
+  .summary-row {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: var(--shadow);
+    background-color: var(--card-bg);
+  }
+
+  /* Sembunyikan baris detail di mobile, kita akan gabungkan kontennya */
+  .detail-row { display: none !important; }
+
+  /* Ubah sel menjadi blok */
   #jadwal-table td {
+    display: block;
+    width: 100%;
   text-align: right; /* Nilai data di kanan */
   padding-left: 50%; /* Beri ruang untuk label */
   position: relative;
@@ -175,6 +233,11 @@
   /* Memaksa teks untuk pindah baris jika terlalu panjang */
   overflow-wrap: break-word;
   word-break: break-word;
+  }
+
+  .summary-row td {
+    border: none;
+    padding: 5px 10px;
   }
 
   #jadwal-table td::before {
@@ -188,9 +251,10 @@
   color: var(--primary-color);
   }
 
-  #jadwal-table td:last-child {
-  border-bottom: none;
-  }
+  /* Sembunyikan panah di mobile */
+  .summary-row td:last-child::after { display: none; }
+
+  #jadwal-table td:last-child { border-bottom: none; }
  }
 
  /* --- Style untuk Pencarian Rekap --- */
