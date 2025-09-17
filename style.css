@@ -217,11 +217,6 @@ main {
     font-size: 0.75rem; /* Font angka tanggal lebih kecil */
   }
 
-  .calendar-grid .has-schedule {
-    width: 24px;   /* Lingkaran penanda lebih kecil */
-    height: 24px;
-    line-height: 24px;
-  }
 }
 
 /* --- Style untuk Pencarian Rekap --- */
@@ -377,16 +372,9 @@ main {
 .calendar-grid .other-month { color: #ccc; }
 .calendar-grid .today { font-weight: bold; background-color: #fdf0ed; }
 .calendar-grid .has-schedule {
- background-color: var(--accent-color);
- color: white;
+ color: var(--accent-color);
  cursor: pointer;
- font-weight: bold;
- border-radius: 50%;
- width: 35px;
- height: 35px;
- line-height: 35px;
- padding: 0;
- margin: auto;
+ font-weight: 700; /* Bold font for highlight */
  transition: transform 0.2s;
 }
 
