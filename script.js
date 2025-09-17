@@ -194,10 +194,28 @@
   populateTable(filteredData);
  }
 
- function setupFilters() {
-  document.getElementById('filter-institusi').addEventListener('change', applyFilters);
-  document.getElementById('filter-mapel').addEventListener('change', applyFilters);
-  document.getElementById('filter-peserta').addEventListener('input', applyFilters);
+function setupFilters() {
+  const institutionFilter = document.getElementById('filter-institusi');
+  const subjectFilter = document.getElementById('filter-mapel');
+  const participantFilter = document.getElementById('filter-peserta');
+
+  institutionFilter.addEventListener('change', () => {
+    const selectedInstitution = institutionFilter.value;
+
+    // Tentukan data yang relevan berdasarkan institusi yang dipilih
+    const relevantData = selectedInstitution
+      ? allData.filter(row => row.Institusi === selectedInstitution)
+      : allData; // Jika tidak ada institusi dipilih, gunakan semua data
+
+    // Perbarui opsi filter mata pelajaran dengan data yang relevan
+    populateSubjectFilter(relevantData);
+
+    // Terapkan kembali semua filter untuk memperbarui tabel
+    applyFilters();
+  });
+
+  subjectFilter.addEventListener('change', applyFilters);
+  participantFilter.addEventListener('input', applyFilters);
  }
 
  document.addEventListener("DOMContentLoaded", () => {
