@@ -125,11 +125,16 @@ function generateCalendar(year, month, schedules) {
   const daysInMonth = lastDay.getDate();
   const startingDay = firstDay.getDay(); // 0 = Minggu, 1 = Senin, ...
  
-  // Buat set tanggal jadwal untuk pencarian cepat (format YYYY-MM-DD)
-  const scheduleDates = new Set(schedules.map(s => {
+  // Buat MAP tanggal jadwal untuk pencarian cepat dan mendapatkan detail
+  const scheduleMap = new Map();
+  schedules.forEach(s => {
     const d = s.date;
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  }));
+    const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    if (!scheduleMap.has(dateStr)) {
+        scheduleMap.set(dateStr, []);
+    }
+    scheduleMap.get(dateStr).push(s.subject);
+  });
  
   let html = `
     <div class="calendar-header">
@@ -153,8 +158,14 @@ function generateCalendar(year, month, schedules) {
   // Isi sel dengan tanggal
   for (let i = startingDay; i < 7; i++) {
     const currentDateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
-    const isScheduled = scheduleDates.has(currentDateStr);
-    html += `<td><div class="${isScheduled ? 'has-schedule' : ''}">${date}</div></td>`;
+    const daySchedules = scheduleMap.get(currentDateStr);
+    let classes = '';
+    let title = '';
+    if (daySchedules) {
+        classes = 'has-schedule';
+        title = `title="Jadwal: ${daySchedules.join(', ')}"`;
+    }
+    html += `<td><div class="${classes}" ${title}>${date}</div></td>`;
     date++;
   }
   html += '</tr>';
@@ -164,8 +175,14 @@ function generateCalendar(year, month, schedules) {
     html += '<tr>';
     for (let i = 0; i < 7 && date <= daysInMonth; i++) {
       const currentDateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
-      const isScheduled = scheduleDates.has(currentDateStr);
-      html += `<td><div class="${isScheduled ? 'has-schedule' : ''}">${date}</div></td>`;
+      const daySchedules = scheduleMap.get(currentDateStr);
+      let classes = '';
+      let title = '';
+      if (daySchedules) {
+          classes = 'has-schedule';
+          title = `title="Jadwal: ${daySchedules.join(', ')}"`;
+      }
+      html += `<td><div class="${classes}" ${title}>${date}</div></td>`;
       date++;
     }
     html += '</tr>';
