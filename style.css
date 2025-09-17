@@ -113,6 +113,11 @@ main {
   flex-grow: 1;
 }
 
+/* Pastikan input pencarian mengisi wrapper-nya */
+.participant-search-wrapper input {
+  width: 100%;
+}
+
 #jadwal-table {
  width: 100%;
  border-collapse: collapse;
@@ -249,7 +254,7 @@ main {
  border: 1px solid var(--border-color);
  border-radius: 0 0 8px 8px;
  box-shadow: var(--shadow);
- margin-top: -8px; /* Sesuaikan agar menempel di bawah input */
+ margin-top: 4px; /* Beri sedikit jarak agar tidak tumpang tindih */
  max-height: 250px; /* Batasi tinggi dan buat bisa di-scroll */
  overflow-y: auto;
  z-index: 10;
