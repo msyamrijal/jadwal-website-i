@@ -115,6 +115,9 @@ function displayParticipantDetails(name) {
   scheduleList.innerHTML = ''; // Kosongkan daftar sebelum mengisi
   schedules.forEach(schedule => {
     const listItem = document.createElement('li');
+    // Tambahkan atribut data-date untuk identifikasi
+    const dateStr = schedule.date.toISOString().split('T')[0]; // Format YYYY-MM-DD
+    listItem.setAttribute('data-date', dateStr);
 
     // Bagian ringkasan yang terlihat
     const summaryDiv = document.createElement('div');
@@ -201,11 +204,13 @@ function generateCalendar(year, month, schedules) {
     const daySchedules = scheduleMap.get(currentDateStr);
     let classes = '';
     let title = '';
+    let dateAttr = '';
     if (daySchedules) {
         classes = 'has-schedule';
         title = `title="Jadwal: ${daySchedules.join(', ')}"`;
+        dateAttr = `data-date="${currentDateStr}"`;
     }
-    html += `<td><div class="${classes}" ${title}>${date}</div></td>`;
+    html += `<td><div class="${classes}" ${title} ${dateAttr}>${date}</div></td>`;
     date++;
   }
   html += '</tr>';
@@ -218,11 +223,13 @@ function generateCalendar(year, month, schedules) {
       const daySchedules = scheduleMap.get(currentDateStr);
       let classes = '';
       let title = '';
+      let dateAttr = '';
       if (daySchedules) {
           classes = 'has-schedule';
           title = `title="Jadwal: ${daySchedules.join(', ')}"`;
+          dateAttr = `data-date="${currentDateStr}"`;
       }
-      html += `<td><div class="${classes}" ${title}>${date}</div></td>`;
+      html += `<td><div class="${classes}" ${title} ${dateAttr}>${date}</div></td>`;
       date++;
     }
     html += '</tr>';
@@ -239,6 +246,34 @@ function generateCalendar(year, month, schedules) {
   document.getElementById('next-month').addEventListener('click', () => {
     currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
     generateCalendar(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), schedules);
+  });
+
+  // Tambahkan event listener untuk setiap tanggal yang punya jadwal
+  calendarContainer.querySelectorAll('.has-schedule').forEach(dayEl => {
+    dayEl.addEventListener('click', (e) => {
+      const dateStr = e.currentTarget.dataset.date;
+      if (!dateStr) return;
+
+      const targetListItem = document.querySelector(`li[data-date="${dateStr}"]`);
+      if (targetListItem) {
+        // Gulir ke item jadwal yang sesuai
+        targetListItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Buka detailnya jika belum terbuka
+        const summaryDiv = targetListItem.querySelector('.schedule-summary');
+        const detailDiv = targetListItem.querySelector('.schedule-details');
+        if (!detailDiv.classList.contains('visible')) {
+          summaryDiv.classList.add('expanded');
+          detailDiv.classList.add('visible');
+        }
+
+        // Beri sorotan sementara
+        targetListItem.classList.add('highlighted');
+        setTimeout(() => {
+          targetListItem.classList.remove('highlighted');
+        }, 2500); // Sorotan selama 2.5 detik
+      }
+    });
   });
 }
  

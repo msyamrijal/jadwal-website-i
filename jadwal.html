@@ -29,7 +29,10 @@
   <div class="filter-container">
   <select id="filter-institusi"></select>
   <select id="filter-mapel"></select>
-  <input type="text" id="filter-peserta" placeholder="Cari berdasarkan Peserta...">
+  <div class="participant-search-wrapper">
+    <input type="text" id="filter-peserta" placeholder="Cari berdasarkan Peserta..." autocomplete="off">
+    <div id="jadwal-search-results" class="search-results-list"></div>
+  </div>
   </div>
 
   <div id="loading-indicator" style="display: none;">Memuat data...</div>

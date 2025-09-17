@@ -1,4 +1,5 @@
  let allData = []; // Variabel untuk menyimpan semua data asli dari spreadsheet
+ let allParticipantNames = []; // Variabel untuk menyimpan semua nama peserta unik
 
  function loadData() {
   const loadingIndicator = document.getElementById('loading-indicator');
@@ -39,6 +40,14 @@
   .map(row => ({ ...row, dateObject: parseDateFromString(row.Tanggal) }))
   .filter(row => row.dateObject && row.dateObject >= today)
   .sort((a, b) => a.dateObject - b.dateObject); // 2. Urutkan dari tanggal terdekat
+
+  // Ambil semua nama peserta unik dari data yang sudah diproses
+  const participantSet = new Set();
+  allData.forEach(row => {
+    Object.keys(row).filter(key => key.startsWith('Peserta ') && row[key])
+      .forEach(key => participantSet.add(row[key].trim()));
+  });
+  allParticipantNames = [...participantSet].sort();
 
   populateTable(allData); // Tampilkan data yang sudah difilter dan diurutkan
   populateInstitutionFilter(allData); // Buat opsi dropdown institusi
@@ -187,7 +196,7 @@
   if (!pesertaFilter) {
     pesertaMatch = true; // Jika filter peserta kosong, anggap cocok
   } else {
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 12; i++) {
   const pesertaKey = `Peserta ${i}`;
   if (row[pesertaKey] && row[pesertaKey].toLowerCase().includes(pesertaFilter)) {
   pesertaMatch = true;
@@ -224,9 +233,39 @@ function setupFilters() {
 
   subjectFilter.addEventListener('change', applyFilters);
   
-  participantFilter.addEventListener('input', () => {
+  const searchResultsContainer = document.getElementById('jadwal-search-results');
+
+  participantFilter.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    searchResultsContainer.innerHTML = '';
+
+    if (searchTerm.length > 0) {
+      const matchingNames = allParticipantNames.filter(name => name.toLowerCase().includes(searchTerm));
+      
+      matchingNames.slice(0, 10).forEach(name => { // Batasi hingga 10 hasil
+        const item = document.createElement('div');
+        item.className = 'search-result-item';
+        item.textContent = name;
+        item.addEventListener('click', () => {
+          participantFilter.value = name;
+          searchResultsContainer.innerHTML = '';
+          localStorage.setItem('lastParticipantFilter', name);
+          applyFilters();
+        });
+        searchResultsContainer.appendChild(item);
+      });
+    }
+
+    // Tetap terapkan filter saat mengetik
     localStorage.setItem('lastParticipantFilter', participantFilter.value);
     applyFilters();
+  });
+
+  // Sembunyikan hasil pencarian jika klik di luar
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.participant-search-wrapper')) {
+      searchResultsContainer.innerHTML = '';
+    }
   });
  }
 
