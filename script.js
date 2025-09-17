@@ -54,7 +54,7 @@
   })
   .catch(error => {
   console.error("Error fetching data:", error);
-  document.querySelector("#jadwal-table tbody").innerHTML = `<tr><td colspan="5" style="text-align:center; color: red;">Gagal memuat data. Periksa koneksi atau URL spreadsheet.</td></tr>`;
+  document.querySelector("#jadwal-table tbody").innerHTML = `<tr><td colspan="3" style="text-align:center; color: red;">Gagal memuat data. Periksa koneksi atau URL spreadsheet.</td></tr>`;
   })
   .finally(() => {
   loadingIndicator.style.display = 'none'; // Sembunyikan indikator loading
@@ -66,7 +66,7 @@
   tableBody.innerHTML = ''; // Kosongkan tabel sebelum mengisi data baru
  
   if (data.length === 0) {
-    tableBody.innerHTML = `<tr><td colspan="2" style="text-align:center;">Tidak ada jadwal yang cocok dengan filter.</td></tr>`;
+    tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;">Tidak ada jadwal yang cocok dengan filter.</td></tr>`;
     return;
   }
  
@@ -79,8 +79,15 @@
 
     const tanggal = document.createElement("td");
     tanggal.setAttribute('data-label', 'Tanggal');
-    tanggal.textContent = row.dateObject.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const datePart = row.dateObject.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+    const timePart = row.dateObject.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    tanggal.textContent = `${datePart}, ${timePart}`;
     summaryRow.appendChild(tanggal);
+
+    const mataPelajaran = document.createElement("td");
+    mataPelajaran.setAttribute('data-label', 'Mata Pelajaran');
+    mataPelajaran.textContent = row['Mata_Pelajaran'];
+    summaryRow.appendChild(mataPelajaran);
 
     const pesertaList = Object.keys(row).filter(key => key.startsWith('Peserta ') && row[key]).map(key => row[key]);
     const pesertaTd = document.createElement("td");
@@ -93,11 +100,10 @@
     detailRow.className = 'detail-row';
 
     const detailCell = document.createElement("td");
-    detailCell.colSpan = 2; // Agar mengisi seluruh lebar tabel
+    detailCell.colSpan = 3; // Agar mengisi seluruh lebar tabel
     detailCell.innerHTML = `
       <div class="detail-content">
         <p><strong>Institusi:</strong> ${row.Institusi}</p>
-        <p><strong>Mata Pelajaran:</strong> ${row['Mata_Pelajaran']}</p>
         <p><strong>Materi Diskusi:</strong> ${row['Materi Diskusi']}</p>
       </div>
     `;
