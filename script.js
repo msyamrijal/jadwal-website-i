@@ -1,47 +1,51 @@
- let allData = []; // Variabel untuk menyimpan semua data asli dari spreadsheet
+let allData = []; // Variabel untuk menyimpan semua data asli dari spreadsheet
  let allParticipantNames = []; // Variabel untuk menyimpan semua nama peserta unik
 
- function loadData() {
+ async function loadData() {
   const loadingIndicator = document.getElementById('loading-indicator');
   loadingIndicator.style.display = 'block'; // Tampilkan indikator loading
-
-  const spreadsheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcEUYNKssh36NHW_Rk7D89EFDt-ZWFdKxQI32L_Q1exbwNhHuGHWKh_W8VFSA8E58vjhVrumodkUv9/pub?gid=0&single=true&output=csv";
-
-  fetch(spreadsheetUrl)
-  .then(response => {
-  if (!response.ok) {
-  throw new Error('Gagal mengambil data dari jaringan');
-  }
-  return response.text();
-  })
-  .then(csvData => {
-  const parsedData = parseCSV(csvData);
-
-  // Fungsi bantuan untuk mengubah string tanggal menjadi objek Date
-  const parseDateFromString = (dateString) => {
-    if (!dateString || dateString.trim() === '') return null;
-
-    // Format seperti "9/15/2025 8:00:00" dapat langsung diproses oleh constructor Date.
-    const date = new Date(dateString);
-
-    // Periksa apakah tanggal yang dihasilkan valid.
-    if (!isNaN(date.getTime())) {
-      return date;
+ 
+  try {
+    // Pola Cache-then-Network dengan async/await
+    // 1. Coba muat dari cache terlebih dahulu
+    const cachedData = await getRawSchedules();
+    if (cachedData && cachedData.length > 0) {
+      console.log("Menampilkan data jadwal dari cache.");
+      processScheduleData(cachedData);
     }
-    console.warn(`Format tanggal tidak valid atau tidak dapat diproses: "${dateString}".`);
-    return null;
+ 
+    // 2. Selalu coba ambil data terbaru dari jaringan
+    const freshData = await fetchScheduleData(); // fetchScheduleData dari db.js
+    console.log("Data jadwal baru dari jaringan diterima.");
+    processScheduleData(freshData); // Perbarui UI dengan data baru
+    await saveRawSchedules(freshData); // Simpan data mentah baru ke IndexedDB
+ 
+  } catch (error) {
+    console.error("Gagal memuat data:", error);
+    // Hanya tampilkan error jika tidak ada data sama sekali (bahkan dari cache)
+    if (allData.length === 0) {
+      document.querySelector("#jadwal-table tbody").innerHTML = `<tr><td colspan="3" style="text-align:center; color: red;">Gagal memuat data. Periksa koneksi atau URL spreadsheet.</td></tr>`;
+    }
+  } finally {
+    // Blok ini DIJAMIN akan selalu berjalan, baik sukses maupun gagal.
+    loadingIndicator.style.display = 'none'; // Sembunyikan indikator loading
   }
+}
 
-  // 1. Filter data untuk tanggal mendatang & tambahkan objek Date untuk pengurutan
+/**
+ * Memproses data jadwal (baik dari cache maupun jaringan) dan memperbarui UI.
+ * @param {Array<Object>} parsedData 
+ */
+function processScheduleData(parsedData) {
+
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Set ke tengah malam untuk perbandingan tanggal yang akurat
+  today.setHours(0, 0, 0, 0);
 
   allData = parsedData
-  .map(row => ({ ...row, dateObject: parseDateFromString(row.Tanggal) }))
-  .filter(row => row.dateObject && row.dateObject >= today)
-  .sort((a, b) => a.dateObject - b.dateObject); // 2. Urutkan dari tanggal terdekat
+    .map(row => ({ ...row, dateObject: parseDateFromString(row.Tanggal) }))
+    .filter(row => row.dateObject && row.dateObject >= today)
+    .sort((a, b) => a.dateObject - b.dateObject);
 
-  // Ambil semua nama peserta unik dari data yang sudah diproses
   const participantSet = new Set();
   allData.forEach(row => {
     Object.keys(row).filter(key => key.startsWith('Peserta ') && row[key])
@@ -49,33 +53,32 @@
   });
   allParticipantNames = [...participantSet].sort();
 
-  populateTable(allData); // Tampilkan data yang sudah difilter dan diurutkan
-  populateInstitutionFilter(allData); // Buat opsi dropdown institusi
-  populateSubjectFilter(allData); // Buat opsi dropdown mata pelajaran
-  setupFilters(); // Siapkan event listener untuk input filter
+  populateTable(allData);
+  populateInstitutionFilter(allData);
+  populateSubjectFilter(allData);
+  setupFilters();
 
-  // Muat dan terapkan filter peserta terakhir yang disimpan
   const savedParticipant = localStorage.getItem('lastParticipantFilter');
   if (savedParticipant) {
     document.getElementById('filter-peserta').value = savedParticipant;
-    applyFilters(); // Terapkan filter yang tersimpan saat halaman dimuat
+    applyFilters();
   }
-  })
-  .catch(error => {
-  console.error("Error fetching data:", error);
-  document.querySelector("#jadwal-table tbody").innerHTML = `<tr><td colspan="3" style="text-align:center; color: red;">Gagal memuat data. Periksa koneksi atau URL spreadsheet.</td></tr>`;
-  })
-  .finally(() => {
-  loadingIndicator.style.display = 'none'; // Sembunyikan indikator loading
-  });
- }
+}
 
  function populateTable(data) {
   const tableBody = document.querySelector("#jadwal-table tbody");
   tableBody.innerHTML = ''; // Kosongkan tabel sebelum mengisi data baru
  
   if (data.length === 0) {
-    tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;">Tidak ada jadwal yang cocok dengan filter.</td></tr>`;
+    // Cek apakah ada filter yang aktif.
+    const institusiFilter = document.getElementById('filter-institusi').value;
+    const mapelFilter = document.getElementById('filter-mapel').value;
+    const pesertaFilter = document.getElementById('filter-peserta').value;
+    if (institusiFilter || mapelFilter || pesertaFilter) {
+        tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;">Tidak ada jadwal yang cocok dengan filter yang dipilih.</td></tr>`;
+    } else {
+        tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;">Tidak ada jadwal mendatang yang ditemukan. Jadwal yang sudah lewat tidak ditampilkan di halaman ini.</td></tr>`;
+    }
     return;
   }
  
@@ -112,8 +115,8 @@
     detailCell.colSpan = 3; // Agar mengisi seluruh lebar tabel
     detailCell.innerHTML = `
       <div class="detail-content">
-        <p><strong>Institusi:</strong> ${row.Institusi}</p>
-        <p><strong>Materi Diskusi:</strong> ${row['Materi Diskusi']}</p>
+        <p><strong>Institusi:</strong> ${row.Institusi || 'Tidak ada data'}</p>
+        <p><strong>Materi Diskusi:</strong> ${row['Materi Diskusi'] || 'Tidak ada data'}</p>
       </div>
     `;
     detailRow.appendChild(detailCell);
@@ -231,23 +234,25 @@ function setupFilters() {
   const subjectFilter = document.getElementById('filter-mapel');
   const participantFilter = document.getElementById('filter-peserta');
 
-  institutionFilter.addEventListener('change', () => {
+  const updateAndApplyFilters = () => {
     const selectedInstitution = institutionFilter.value;
+    const selectedSubject = subjectFilter.value;
 
-    // Tentukan data yang relevan berdasarkan institusi yang dipilih
-    const relevantData = selectedInstitution
+    // Perbarui filter Mata Pelajaran berdasarkan Institusi yang dipilih
+    const relevantDataForSubjects = selectedInstitution 
       ? allData.filter(row => row.Institusi === selectedInstitution)
-      : allData; // Jika tidak ada institusi dipilih, gunakan semua data
+      : allData;
+    populateSubjectFilter(relevantDataForSubjects);
+    // Pastikan nilai filter mapel yang sebelumnya dipilih tetap ada jika memungkinkan
+    subjectFilter.value = selectedSubject;
 
-    // Perbarui opsi filter mata pelajaran dengan data yang relevan
-    populateSubjectFilter(relevantData);
-
-    // Terapkan kembali semua filter untuk memperbarui tabel
+    // Terapkan semua filter
     applyFilters();
-  });
+  };
 
+  institutionFilter.addEventListener('change', updateAndApplyFilters);
   subjectFilter.addEventListener('change', applyFilters);
-  
+
   const searchResultsContainer = document.getElementById('jadwal-search-results');
 
   participantFilter.addEventListener('input', (e) => {

@@ -1,4 +1,4 @@
-let participantSummary = {};
+let scheduleSummary = {};
 let allParticipantNames = [];
 let currentCalendarDate = new Date();
  
@@ -10,48 +10,78 @@ document.addEventListener("DOMContentLoaded", () => {
   loadRekapData();
 });
  
-function loadRekapData() {
+async function loadRekapData() {
   const loadingIndicator = document.getElementById('loading-indicator');
   const initialPrompt = document.getElementById('initial-prompt');
   const searchInput = document.getElementById('rekap-search');
  
   // Sembunyikan prompt dan nonaktifkan input saat memuat
-  initialPrompt.classList.add('hidden');
   loadingIndicator.style.display = 'block';
   searchInput.disabled = true;
+  initialPrompt.classList.add('hidden');
  
-  // URL yang sama dengan script utama
-  const spreadsheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcEUYNKssh36NHW_Rk7D89EFDt-ZWFdKxQI32L_Q1exbwNhHuGHWKh_W8VFSA8E58vjhVrumodkUv9/pub?gid=0&single=true&output=csv";
+  try {
+    // Pola Cache-then-Network dengan async/await
+    // 1. Coba muat dari cache terlebih dahulu
+    const cachedData = await getRekap();
+    if (cachedData && Object.keys(cachedData).length > 0) {
+      console.log("Menampilkan data rekap dari cache.");
+      processRekapData(cachedData, true); // Tandai sebagai data dari cache
+    }
  
-  fetch(spreadsheetUrl)
-    .then(response => {
-      if (!response.ok) throw new Error('Gagal mengambil data dari jaringan');
-      return response.text();
-    })
-    .then(csvData => {
-      const parsedData = parseCSV(csvData); // Fungsi parseCSV ada di app.js
-      participantSummary = createParticipantSummary(parsedData);
-      allParticipantNames = Object.keys(participantSummary).sort((a, b) => a.localeCompare(b));
-      setupRekapSearch(); // Siapkan pencarian setelah data siap
-    })
-    .catch(error => {
-      console.error("Error fetching data:", error);
-      document.querySelector('main').innerHTML = `<p style="text-align:center; color: red;">Gagal memuat data rekap.</p>`;
-    })
-    .finally(() => {
-      loadingIndicator.style.display = 'none';
-      searchInput.disabled = false;
+    // 2. Selalu coba ambil data terbaru dari jaringan
+    const freshData = await fetchScheduleData();
+    console.log("Data rekap baru dari jaringan diterima.");
+    const freshSummary = createParticipantSummary(freshData);
+    processRekapData(freshSummary); // Perbarui UI dengan data baru
+    await saveRekap(freshSummary); // Simpan data rekap baru ke IndexedDB
 
-      // Cek dan muat peserta terakhir yang dilihat
-      const lastParticipant = localStorage.getItem('lastRekapParticipant');
-      if (lastParticipant && participantSummary[lastParticipant]) {
-        displayParticipantDetails(lastParticipant);
-      } else {
-        // Hanya tampilkan prompt dan fokus jika tidak ada peserta yang dimuat
-        initialPrompt.classList.remove('hidden');
-        searchInput.focus();
-      }
-    });
+    
+  } catch (error) {
+    console.error("Gagal memuat data rekap:", error);
+    // Hanya tampilkan error jika tidak ada data sama sekali (bahkan dari cache)
+    if (Object.keys(scheduleSummary).length === 0) {
+      // Tampilkan pesan error di initial-prompt agar tidak merusak layout
+      const prompt = document.getElementById('initial-prompt');
+      prompt.textContent = 'Gagal memuat data rekap. Periksa koneksi internet Anda.';
+      prompt.style.color = 'red';
+    }
+  } finally {
+    // Blok ini DIJAMIN akan selalu berjalan.
+    loadingIndicator.style.display = 'none';
+    searchInput.disabled = false;
+    const detailsVisible = !document.getElementById('participant-details-container').classList.contains('hidden');
+    if (!detailsVisible) initialPrompt.classList.remove('hidden');
+  }
+}
+
+/**
+ * Memproses data rekap (baik dari cache maupun jaringan) dan memperbarui UI.
+ * @param {Object} summaryData 
+ */
+function processRekapData(summaryData, fromCache = false) {
+  scheduleSummary = summaryData;
+  allParticipantNames = Object.keys(scheduleSummary).sort((a, b) => a.localeCompare(b));
+  setupRekapSearch();
+
+  // Sembunyikan prompt karena kita akan memproses data
+  document.getElementById('initial-prompt').classList.add('hidden');
+
+  const lastParticipant = localStorage.getItem('lastRekapParticipant');
+  // Jika data baru dari jaringan, perbarui tampilan.
+  // Jika data dari cache, hanya tampilkan jika belum ada yang ditampilkan.
+  const detailsVisible = !document.getElementById('participant-details-container').classList.contains('hidden');
+  if (lastParticipant && scheduleSummary[lastParticipant] && (!fromCache || !detailsVisible)) {
+    displayParticipantDetails(lastParticipant);
+  } else {
+    // Jika tidak ada peserta sama sekali di summary (karena semua jadwal sudah lewat)
+    if (allParticipantNames.length === 0) {
+        const initialPrompt = document.getElementById('initial-prompt');
+        initialPrompt.textContent = 'Tidak ada jadwal mendatang yang ditemukan untuk peserta manapun.';
+    }
+    document.getElementById('initial-prompt').classList.remove('hidden');
+    document.getElementById('rekap-search').focus();
+  }
 }
  
 function createParticipantSummary(data) {
@@ -60,9 +90,9 @@ function createParticipantSummary(data) {
   today.setHours(0, 0, 0, 0); // Set ke tengah malam untuk perbandingan tanggal yang akurat
  
   data.forEach(row => {
-    const scheduleDate = new Date(row.Tanggal);
-    // Lewati baris ini jika tanggalnya sudah lewat atau tidak valid
-    if (isNaN(scheduleDate.getTime()) || scheduleDate < today) {
+    console.log('Raw data row:', row);
+    const scheduleDate = parseDateFromString(row.Tanggal);
+    if (!scheduleDate || scheduleDate < today) {
       return;
     }
 
@@ -85,13 +115,13 @@ function createParticipantSummary(data) {
           subject: row['Mata_Pelajaran'], // Tetap ada untuk kalender
           date: scheduleDate,
           institusi: row.Institusi,
-          materi: row['Materi Diskusi'],
+          materi: row['Materi Diskusi'] || 'Tidak ada data',
           otherParticipants: otherParticipants // Simpan data peserta lain
         });
       }
     });
   });
- 
+
   // Urutkan jadwal setiap peserta berdasarkan tanggal
   for (const name in summary) {
     summary[name].sort((a, b) => a.date - b.date);
@@ -115,11 +145,13 @@ function displayParticipantDetails(name) {
   document.getElementById('rekap-search').value = name;
  
   // Isi detail
-  const schedules = participantSummary[name];
-  nameHeading.innerHTML = `${name} <small class="schedule-count-badge">(Sisa ${schedules.length})</small>`;
+  const schedules = scheduleSummary[name];
+  nameHeading.textContent = name;
+  document.getElementById('schedule-count').textContent = `(${schedules.length} Sisa)`;
  
   scheduleList.innerHTML = ''; // Kosongkan daftar sebelum mengisi
   schedules.forEach(schedule => {
+    console.log('Processed schedule object:', schedule);
     const listItem = document.createElement('li');
     // Tambahkan atribut data-date untuk identifikasi
     const dateStr = schedule.date.toISOString().split('T')[0]; // Format YYYY-MM-DD
@@ -173,6 +205,8 @@ function generateCalendar(year, month, schedules) {
   const lastDay = new Date(year, month + 1, 0);
   const daysInMonth = lastDay.getDate();
   const startingDay = firstDay.getDay(); // 0 = Minggu, 1 = Senin, ...
+  const today = new Date();
+  const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
  
   // Buat MAP tanggal jadwal untuk pencarian cepat dan mendapatkan detail
   const scheduleMap = new Map();
@@ -208,15 +242,17 @@ function generateCalendar(year, month, schedules) {
   for (let i = startingDay; i < 7; i++) {
     const currentDateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
     const daySchedules = scheduleMap.get(currentDateStr);
-    let classes = '';
+    let divClasses = '';
     let title = '';
-    let dateAttr = '';
+    let dateAttr = `data-date="${currentDateStr}"`; // Selalu tambahkan data-date
     if (daySchedules) {
-        classes = 'has-schedule';
+        divClasses = 'has-schedule';
         title = `title="Jadwal: ${daySchedules.join(', ')}"`;
-        dateAttr = `data-date="${currentDateStr}"`;
     }
-    html += `<td><div class="${classes}" ${title} ${dateAttr}>${date}</div></td>`;
+    if (isCurrentMonth && date === today.getDate()) {
+        divClasses += ' today';
+    }
+    html += `<td ${dateAttr}><div class="${divClasses.trim()}" ${title}>${date}</div></td>`;
     date++;
   }
   html += '</tr>';
@@ -227,15 +263,17 @@ function generateCalendar(year, month, schedules) {
     for (let i = 0; i < 7 && date <= daysInMonth; i++) {
       const currentDateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
       const daySchedules = scheduleMap.get(currentDateStr);
-      let classes = '';
+      let divClasses = '';
       let title = '';
-      let dateAttr = '';
+      let dateAttr = `data-date="${currentDateStr}"`; // Selalu tambahkan data-date
       if (daySchedules) {
-          classes = 'has-schedule';
+          divClasses = 'has-schedule';
           title = `title="Jadwal: ${daySchedules.join(', ')}"`;
-          dateAttr = `data-date="${currentDateStr}"`;
       }
-      html += `<td><div class="${classes}" ${title} ${dateAttr}>${date}</div></td>`;
+      if (isCurrentMonth && date === today.getDate()) {
+        divClasses += ' today';
+      }
+      html += `<td ${dateAttr}><div class="${divClasses.trim()}" ${title}>${date}</div></td>`;
       date++;
     }
     html += '</tr>';
@@ -257,7 +295,8 @@ function generateCalendar(year, month, schedules) {
   // Tambahkan event listener untuk setiap tanggal yang punya jadwal
   calendarContainer.querySelectorAll('.has-schedule').forEach(dayEl => {
     dayEl.addEventListener('click', (e) => {
-      const dateStr = e.currentTarget.dataset.date;
+      // FIX: Ambil data-date dari parentElement (td)
+      const dateStr = e.currentTarget.parentElement.dataset.date; 
       if (!dateStr) return;
 
       const targetListItem = document.querySelector(`li[data-date="${dateStr}"]`);

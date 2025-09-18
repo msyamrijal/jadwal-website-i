@@ -1,12 +1,13 @@
-const CACHE_NAME = 'jadwal-presentasi-v4'; // Versi cache dinaikkan!
+const CACHE_NAME = 'jadwal-presentasi-v14-csv-validation'; // Versi baru dengan validasi CSV
 const urlsToCache = [
   '/',
   'index.html',
-  'jadwal.html',
-  'rekap.html',
+  'jadwal.html', // Menambahkan jadwal.html
   'style.css',
   'script.js',
-  'app.js',
+  'idb.js', // File library IDB lokal
+  'db.js', // File database baru
+  'app.js', // File baru
   'rekap.js',
   'site.webmanifest',
   'apple-touch-icon.png',
@@ -17,6 +18,13 @@ const urlsToCache = [
   'icons/icon-192x192.png',
   'icons/icon-512x512.png'
 ];
+
+// Listener untuk pesan dari klien (misalnya, untuk skip waiting)
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
 
 // Event: Install
 // Saat service worker di-install, buka cache dan simpan semua file dasar aplikasi.
@@ -33,34 +41,79 @@ self.addEventListener('install', event => {
 // Event: Fetch
 // Setiap kali halaman meminta sebuah file (gambar, css, dll.), service worker akan mencegatnya.
 self.addEventListener('fetch', event => {
-  // Untuk data dari Google Sheets, selalu coba ambil dari internet terlebih dahulu.
-  // Jika gagal (offline), baru ambil dari cache.
-  if (event.request.url.includes('docs.google.com')) {
+  const url = new URL(event.request.url);
+
+  // Selalu abaikan halaman reset, biarkan browser mengambilnya dari jaringan.
+  // Ini adalah tombol darurat kita.
+  if (url.pathname.endsWith('/reset.html')) {
+    return; // Bypass service worker
+  }
+
+  // STRATEGI 1: Stale-While-Revalidate untuk halaman HTML (permintaan navigasi).
+  // Ini membuat aplikasi terasa instan saat dibuka, bahkan saat offline.
+  if (event.request.mode === 'navigate') {
     event.respondWith(
       caches.open(CACHE_NAME).then(cache => {
-        return fetch(event.request)
-          .then(response => {
-            // Jika berhasil, simpan response ke cache dan kembalikan
-            cache.put(event.request, response.clone());
-            return response;
-          })
-          .catch(() => {
-            // Jika fetch gagal, coba cari di cache
-            return cache.match(event.request);
+        // 1. Sajikan dari cache terlebih dahulu
+        return cache.match(event.request).then(cachedResponse => {
+          // 2. Di latar belakang, ambil versi baru dari jaringan
+          const fetchPromise = fetch(event.request).then(networkResponse => {
+            // Jika berhasil, perbarui cache
+            cache.put(event.request, networkResponse.clone());
+            return networkResponse;
           });
+          // Kembalikan respons dari cache jika ada, atau tunggu dari jaringan jika tidak ada di cache
+          return cachedResponse || fetchPromise;
+        });
       })
     );
     return;
   }
 
-  // Untuk file lain, coba cari di cache dulu. Jika tidak ada, baru ambil dari internet.
+  // STRATEGI 2: Network-First untuk data Google Sheets.
+  // Selalu coba dapatkan data terbaru, fallback ke cache jika offline. URL diubah ke host yang benar.
+  if (url.hostname === 'docs.google.com') {
+    event.respondWith(fetchAndCache(event.request));
+    return;
+  }
+
+  // STRATEGI 2: Cache-first untuk aset statis lainnya (CSS, JS, gambar, font).
+  // Aset ini tidak sering berubah dan aman disajikan dari cache untuk kecepatan.
   event.respondWith(
     caches.match(event.request)
       .then(response => {
+        // Jika ada di cache, kembalikan. Jika tidak, ambil dari jaringan.
         return response || fetch(event.request);
       })
   );
 });
+
+/**
+ * Fungsi helper untuk strategi Network-First.
+ * Mencoba fetch, jika berhasil perbarui cache, jika gagal ambil dari cache.
+ * @param {Request} request
+ */
+function fetchAndCache(request) {
+  return fetch(request)
+    .then(response => {
+      // Periksa apakah responsnya valid DAN merupakan file CSV sebelum di-cache.
+      // Ini mencegah "cache poisoning" dengan halaman error HTML dari Google.
+      const contentType = response.headers.get('content-type');
+      if (response.ok && contentType && contentType.includes('text/csv')) {
+        console.log('Menerima CSV yang valid dari jaringan, menyimpan ke cache.');
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(request, response.clone());
+        });
+      } else {
+        console.warn('Menerima respons tidak valid dari jaringan, tidak akan di-cache:', response);
+      }
+      return response;
+    })
+    .catch(err => {
+      console.log('Fetch gagal, mencoba mengambil dari cache.', err);
+      return caches.match(request);
+    });
+}
 
 // Event: Activate
 // Hapus cache lama jika ada versi baru.
