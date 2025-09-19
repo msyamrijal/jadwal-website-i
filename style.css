@@ -9,34 +9,34 @@
 } 
 
 :root { 
-    /* Enhanced Color Palette */
-    --primary-color: #1e3a8a;        /* Rich Navy Blue */
-    --primary-light: #3b82f6;        /* Lighter Blue */
-    --primary-dark: #1e40af;         /* Darker Blue */
-    --accent-color: #f59e0b;         /* Warm Amber */
-    --accent-light: #fbbf24;         /* Light Amber */
-    --accent-dark: #d97706;          /* Dark Amber */
+    /* Elegant White-Based Color Palette */
+    --primary-color: #2c3e50;        /* Elegant Dark Blue */
+    --primary-light: #34495e;        /* Softer Blue */
+    --primary-dark: #1a2634;         /* Deep Blue */
+    --accent-color: #9b8d76;         /* Warm Taupe */
+    --accent-light: #b5a898;         /* Light Taupe */
+    --accent-dark: #7d705e;          /* Dark Taupe */
     
-    /* Neutral Colors */
-    --bg-color: #f8fafc;             /* Very Light Gray */
+    /* Refined Neutral Colors */
+    --bg-color: #ffffff;             /* Pure White */
     --card-bg: #ffffff;              /* Pure White */
-    --text-color: #1f2937;           /* Dark Gray */
+    --text-color: #2c3e50;           /* Elegant Dark */
     --text-light: #ffffff;           /* White Text */
-    --text-muted: #6b7280;           /* Muted Gray */
-    --border-color: #e5e7eb;         /* Light Border */
-    --border-light: #f3f4f6;        /* Very Light Border */
+    --text-muted: #95a5a6;           /* Soft Gray */
+    --border-color: #ecf0f1;         /* Very Light Gray */
+    --border-light: #f5f6fa;         /* Almost White */
     
-    /* Status Colors */
-    --success-color: #10b981;        /* Green */
-    --warning-color: #f59e0b;        /* Orange */
-    --error-color: #ef4444;          /* Red */
-    --info-color: #3b82f6;           /* Blue */
+    /* Refined Status Colors */
+    --success-color: #27ae60;        /* Elegant Green */
+    --warning-color: #d4ac6e;        /* Warm Gold */
+    --error-color: #c0392b;          /* Deep Red */
+    --info-color: #3498db;           /* Clear Blue */
     
-    /* Shadows and Effects */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    /* Subtle Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.03);
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.02);
+    --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.02);
     
     /* Border Radius */
     --radius-sm: 0.375rem;
@@ -96,12 +96,12 @@ body {
    ==================================== */
 
 header { 
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    color: var(--text-light); 
+    background: var(--bg-color);
+    color: var(--primary-color); 
     padding: var(--space-lg) 0; 
-    box-shadow: var(--shadow-lg); 
+    box-shadow: var(--shadow-sm); 
     position: relative;
-    overflow: hidden;
+    border-bottom: 1px solid var(--border-color);
 } 
 
 header::before {
@@ -111,8 +111,8 @@ header::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    opacity: 0.5;
+    background: linear-gradient(to right, var(--bg-color), var(--border-light), var(--bg-color));
+    opacity: 0.8;
 }
 
 header h1 { 
@@ -148,9 +148,9 @@ header h1 {
    ==================================== */
 
 .install-button { 
-    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
-    color: var(--text-light); 
-    border: none; 
+    background: var(--bg-color);
+    color: var(--primary-color); 
+    border: 1px solid var(--border-color); 
     padding: var(--space-sm) var(--space-lg); 
     border-radius: var(--radius-lg); 
     transition: all var(--transition); 
@@ -162,24 +162,27 @@ header h1 {
     display: flex;
     align-items: center;
     gap: var(--space-xs);
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-sm);
     transform: translateY(0);
 } 
 
 .install-button:hover { 
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-    background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent-color) 100%);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+    background: var(--border-light);
+    border-color: var(--accent-color);
+    color: var(--accent-dark);
 } 
 
 .install-button:active {
     transform: translateY(0);
+    background: var(--border-color);
 }
 
 header nav a { 
-    color: var(--text-light); 
+    color: var(--primary-color); 
     text-decoration: none; 
-    border: 2px solid rgba(255, 255, 255, 0.3); 
+    border: 1px solid var(--border-color); 
     padding: var(--space-sm) var(--space-lg); 
     border-radius: var(--radius-lg); 
     transition: all var(--transition); 
@@ -188,7 +191,8 @@ header nav a {
     display: flex;
     align-items: center;
     gap: var(--space-xs);
-    backdrop-filter: blur(10px);
+    background: var(--bg-color);
+    box-shadow: var(--shadow-sm);
 } 
 
 header nav a:hover { 
@@ -366,15 +370,16 @@ main {
 .table-container {
     border-radius: var(--radius-xl);
     overflow: hidden;
-    box-shadow: var(--shadow-lg);
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
 }
 
 #jadwal-table { 
     width: 100%; 
-    border-collapse: collapse; 
-    background-color: var(--card-bg); 
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: var(--bg-color); 
     font-size: 0.9rem;
 } 
 
@@ -400,26 +405,29 @@ main {
 }
 
 #jadwal-table th { 
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    color: var(--text-light); 
+    background: var(--bg-color);
+    color: var(--primary-color); 
     position: relative;
     cursor: pointer;
     transition: all var(--transition);
+    border-bottom: 2px solid var(--border-color);
+    font-weight: 600;
 } 
 
 #jadwal-table th:hover {
-    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+    background: var(--border-light);
+    color: var(--accent-color);
 }
 
 #jadwal-table tbody tr { 
     transition: all var(--transition-fast);
-    border-left: 4px solid transparent;
+    border-left: 2px solid transparent;
 } 
 
 #jadwal-table tbody tr:hover { 
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0.02) 100%);
-    border-left-color: var(--primary-color);
-    transform: translateX(2px);
+    background: var(--border-light);
+    border-left-color: var(--accent-color);
+    transform: translateX(1px);
 } 
 
 /* ====================================
@@ -649,10 +657,10 @@ main {
     color: var(--text-muted); 
     margin-top: var(--space-2xl);
     padding: var(--space-2xl);
-    background: linear-gradient(135deg, var(--card-bg) 0%, #f8fafc 100%);
+    background: var(--bg-color);
     border-radius: var(--radius-xl);
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
 } 
 
 .welcome-icon {
@@ -683,30 +691,33 @@ main {
     align-items: center;
     margin-bottom: var(--space-xl);
     padding: var(--space-xl);
-    background: linear-gradient(135deg, var(--card-bg) 0%, #f8fafc 100%);
+    background: var(--bg-color);
     border-radius: var(--radius-xl);
-    box-shadow: var(--shadow);
-    border-left: 4px solid var(--primary-color);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    border-bottom: 3px solid var(--accent-color);
 }
 
 .participant-name { 
     font-family: var(--font-family-serif); 
     color: var(--primary-color); 
-    font-size: 1.8rem; 
-    font-weight: 600; 
+    font-size: 1.6rem; 
+    font-weight: 500; 
     margin: 0;
+    letter-spacing: -0.02em;
 } 
 
 .participant-stats {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
-    color: var(--text-light);
+    background: var(--bg-color);
+    color: var(--primary-color);
     padding: var(--space-sm) var(--space);
     border-radius: var(--radius-lg);
     font-weight: 500;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
 }
 
 .stats-icon {
@@ -777,15 +788,17 @@ main {
     padding: var(--space-lg); 
     cursor: pointer; 
     position: relative; 
-    border-left: 4px solid var(--accent-color); 
+    border-left: 2px solid var(--accent-color); 
     transition: all var(--transition); 
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: var(--bg-color);
 } 
 
 .schedule-summary:hover { 
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(245, 158, 11, 0.02) 100%);
+    background: var(--border-light);
+    border-left-width: 3px;
 } 
 
 .schedule-summary::after { 
@@ -843,27 +856,29 @@ main {
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
-    margin-bottom: var(--space-lg); 
+    margin-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: var(--space);
 } 
 
 .calendar-header h3 { 
     margin: 0; 
     color: var(--primary-color); 
-    font-size: 1.5rem; 
+    font-size: 1.3rem; 
     font-family: var(--font-family-serif); 
-    font-weight: 600;
+    font-weight: 500;
 } 
 
 .calendar-nav { 
-    border: none; 
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    color: var(--text-light); 
+    border: 1px solid var(--border-color); 
+    background: var(--bg-color);
+    color: var(--primary-color); 
     padding: var(--space-sm) var(--space); 
     border-radius: var(--radius-lg); 
     cursor: pointer; 
     transition: all var(--transition); 
     font-weight: 500;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-sm);
     display: flex;
     align-items: center;
     gap: var(--space-xs);
@@ -886,12 +901,13 @@ main {
 
 .calendar-grid th { 
     padding: var(--space); 
-    font-weight: 600; 
-    color: var(--text-light); 
-    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
-    font-size: 0.9rem;
+    font-weight: 500; 
+    color: var(--primary-color); 
+    background: var(--bg-color);
+    font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border-color);
 } 
 
 .calendar-grid td { 
@@ -899,7 +915,7 @@ main {
     border: 1px solid var(--border-light); 
     vertical-align: middle; 
     color: var(--text-muted); 
-    background-color: var(--card-bg);
+    background-color: var(--bg-color);
     transition: all var(--transition-fast);
     cursor: pointer;
     position: relative;
@@ -923,18 +939,19 @@ main {
 } 
 
 .calendar-grid .has-schedule { 
-    color: var(--text-light); 
-    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
+    color: var(--accent-color); 
+    background: var(--bg-color);
     cursor: pointer; 
-    font-weight: 700; 
+    font-weight: 600; 
     transition: all var(--transition);
     box-shadow: var(--shadow-sm);
+    border: 1px solid var(--accent-color);
 } 
 
 .calendar-grid .has-schedule:hover { 
-    transform: scale(1.1);
+    transform: scale(1.05);
     box-shadow: var(--shadow);
-    background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent-color) 100%);
+    background: var(--border-light);
 }
 
 .calendar-grid .has-schedule::after {
@@ -1078,32 +1095,32 @@ button, .search-result-item, .schedule-summary, .calendar-grid td, header nav a,
 /* Micro-interactions for better feedback */
 .filter-container input:focus,
 .rekap-search-container input:focus {
-    animation: pulse 0.6s ease-in-out;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(155, 141, 118, 0.1);
 }
 
-@keyframes pulse {
-    0% { 
-        transform: scale(1); 
-    }
-    50% { 
-        transform: scale(1.02); 
-    }
-    100% { 
-        transform: scale(1); 
-    }
-}
-
-/* Staggered animations for list items */
+/* Subtle animations for list items */
 .schedule-list li {
-    animation: slideInUp 0.4s ease-out;
+    animation: fadeIn 0.3s ease-out;
     animation-fill-mode: backwards;
 }
 
-.schedule-list li:nth-child(1) { animation-delay: 0.1s; }
-.schedule-list li:nth-child(2) { animation-delay: 0.2s; }
-.schedule-list li:nth-child(3) { animation-delay: 0.3s; }
-.schedule-list li:nth-child(4) { animation-delay: 0.4s; }
-.schedule-list li:nth-child(5) { animation-delay: 0.5s; }
+.schedule-list li:nth-child(1) { animation-delay: 0.05s; }
+.schedule-list li:nth-child(2) { animation-delay: 0.1s; }
+.schedule-list li:nth-child(3) { animation-delay: 0.15s; }
+.schedule-list li:nth-child(4) { animation-delay: 0.2s; }
+.schedule-list li:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 @keyframes slideInUp {
     from {
