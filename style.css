@@ -1255,20 +1255,179 @@ html {
     }
 }
 
-/* Dark mode support (if browser supports it) */
+/* Dark mode support with refined colors */
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg-color: #0f172a;
-        --card-bg: #1e293b;
-        --text-color: #f1f5f9;
-        --text-muted: #94a3b8;
-        --border-color: #334155;
-        --border-light: #475569;
+        /* Base Colors */
+        --bg-color: #111827;        /* Deep Blue-Gray */
+        --card-bg: #1f2937;         /* Lighter Blue-Gray */
+        --surface-color: #374151;   /* Surface Elements */
+        
+        /* Text Colors */
+        --text-color: #f3f4f6;      /* Light Gray Text */
+        --text-muted: #9ca3af;      /* Muted Text */
+        --text-dim: #6b7280;        /* Very Muted Text */
+        
+        /* Borders & Dividers */
+        --border-color: #374151;    /* Subtle Border */
+        --border-light: #4b5563;    /* Lighter Border */
+        
+        /* Primary Colors */
+        --primary-color: #93c5fd;   /* Light Blue */
+        --primary-light: #bfdbfe;   /* Lighter Blue */
+        --primary-dark: #60a5fa;    /* Slightly Darker Blue */
+        
+        /* Accent Colors */
+        --accent-color: #d6bcfa;    /* Soft Purple */
+        --accent-light: #e9d5ff;    /* Light Purple */
+        --accent-dark: #c4b5fd;     /* Dark Purple */
+        
+        /* Status Colors */
+        --success-color: #34d399;   /* Green */
+        --warning-color: #fbbf24;   /* Yellow */
+        --error-color: #f87171;     /* Red */
+        --info-color: #60a5fa;      /* Blue */
+        
+        /* Shadows for Dark Mode */
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
+        --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.6);
     }
-    
+
+    /* Header Styles */
+    header {
+        background: var(--card-bg);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    /* Navigation and Buttons */
+    .install-button,
+    header nav a {
+        background: var(--surface-color);
+        border-color: var(--border-light);
+        color: var(--text-color);
+    }
+
+    .install-button:hover,
+    header nav a:hover {
+        background: var(--border-color);
+        border-color: var(--accent-color);
+    }
+
+    /* Table Styles */
+    .table-container {
+        background: var(--card-bg);
+        border-color: var(--border-color);
+    }
+
+    #jadwal-table th {
+        background: var(--surface-color);
+        border-bottom-color: var(--border-light);
+    }
+
+    #jadwal-table td {
+        border-color: var(--border-color);
+    }
+
+    #jadwal-table tbody tr:hover {
+        background: var(--surface-color);
+    }
+
+    /* Calendar Styles */
+    .calendar-grid th {
+        background: var(--surface-color);
+        color: var(--primary-light);
+    }
+
+    .calendar-grid td {
+        background: var(--card-bg);
+        border-color: var(--border-color);
+    }
+
+    .calendar-grid .other-month {
+        color: var(--text-dim);
+        background: var(--bg-color);
+    }
+
+    .calendar-grid .today {
+        background: var(--surface-color);
+        color: var(--primary-light);
+        box-shadow: inset 0 0 0 1px var(--primary-color);
+    }
+
+    .calendar-grid .has-schedule {
+        color: var(--accent-light);
+        border-color: var(--accent-color);
+        background: var(--surface-color);
+    }
+
+    .calendar-grid .has-schedule:hover {
+        background: var(--border-color);
+    }
+
+    /* Card and Container Styles */
     .welcome-message,
     .filter-container,
-    #calendar-container {
-        background: linear-gradient(135deg, var(--card-bg) 0%, #0f172a 100%);
+    #calendar-container,
+    .participant-header,
+    .participant-stats {
+        background: var(--card-bg);
+        border-color: var(--border-color);
+    }
+
+    .participant-name {
+        color: var(--text-color);
+    }
+
+    /* Search and Filter Elements */
+    .filter-container input,
+    .filter-container select,
+    .rekap-search-container input {
+        background: var(--surface-color);
+        border-color: var(--border-color);
+        color: var(--text-color);
+    }
+
+    .filter-container input:focus,
+    .filter-container select:focus,
+    .rekap-search-container input:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(214, 188, 250, 0.1);
+    }
+
+    /* Schedule List Styles */
+    .schedule-list li {
+        background: var(--card-bg);
+        border-color: var(--border-color);
+    }
+
+    .schedule-summary {
+        background: var(--card-bg);
+    }
+
+    .schedule-summary:hover {
+        background: var(--surface-color);
+    }
+
+    .schedule-details {
+        background: var(--bg-color);
+    }
+
+    /* Loading States */
+    .loading-spinner {
+        border-color: var(--border-color);
+        border-top-color: var(--accent-color);
+    }
+
+    /* Enhanced Focus States for Dark Mode */
+    *:focus-visible {
+        outline-color: var(--accent-color);
+    }
+
+    /* Selection Color */
+    ::selection {
+        background: var(--accent-color);
+        color: var(--bg-color);
     }
 }
