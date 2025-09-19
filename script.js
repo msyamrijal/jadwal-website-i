@@ -1,32 +1,4 @@
 let allData = []; // Variabel untuk menyimpan semua data asli dari spreadsheet
-
-// --- PWA Install Prompt ---
-let deferredPrompt;
-const installButton = document.getElementById('install-button');
-window.addEventListener('beforeinstallprompt', (e) => {
-  // Mencegah prompt otomatis
-  e.preventDefault();
-  deferredPrompt = e;
-  if (installButton) {
-    installButton.hidden = false;
-  }
-});
-
-if (installButton) {
-  installButton.addEventListener('click', async () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        console.log('User accepted the install prompt');
-      } else {
-        console.log('User dismissed the install prompt');
-      }
-      deferredPrompt = null;
-      installButton.hidden = true;
-    }
-  });
-}
  let allParticipantNames = []; // Variabel untuk menyimpan semua nama peserta unik
 
  async function loadData() {
