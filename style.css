@@ -1,398 +1,1257 @@
+/* ====================================
+   MODERN ELEGANT DESIGN SYSTEM
+   ==================================== */
+
 *, 
 *::before, 
 *::after { 
- box-sizing: border-box; 
+    box-sizing: border-box; 
 } 
 
 :root { 
- /* Palet Warna Baru */ 
- --primary-color: #0b435c; /* Biru Tua Elegan */ 
- --accent-color: #e26d5b;  /* Oranye Kemerahan sebagai Aksen */ 
- --bg-color: #f9f9f9;      /* Latar belakang sedikit off-white */ 
- --card-bg: #ffffff;      /* Kartu/Konten tetap putih bersih */ 
- --text-color: #333333;   /* Teks lebih gelap untuk kontras */ 
- --text-light: #fdfdfd;   /* Teks terang di atas background gelap */ 
- --border-color: #e0e0e0; /* Warna border yang lembut */ 
- --shadow: 0 5px 20px rgba(0, 0, 0, 0.07); /* Bayangan lebih halus */ 
+    /* Enhanced Color Palette */
+    --primary-color: #1e3a8a;        /* Rich Navy Blue */
+    --primary-light: #3b82f6;        /* Lighter Blue */
+    --primary-dark: #1e40af;         /* Darker Blue */
+    --accent-color: #f59e0b;         /* Warm Amber */
+    --accent-light: #fbbf24;         /* Light Amber */
+    --accent-dark: #d97706;          /* Dark Amber */
+    
+    /* Neutral Colors */
+    --bg-color: #f8fafc;             /* Very Light Gray */
+    --card-bg: #ffffff;              /* Pure White */
+    --text-color: #1f2937;           /* Dark Gray */
+    --text-light: #ffffff;           /* White Text */
+    --text-muted: #6b7280;           /* Muted Gray */
+    --border-color: #e5e7eb;         /* Light Border */
+    --border-light: #f3f4f6;        /* Very Light Border */
+    
+    /* Status Colors */
+    --success-color: #10b981;        /* Green */
+    --warning-color: #f59e0b;        /* Orange */
+    --error-color: #ef4444;          /* Red */
+    --info-color: #3b82f6;           /* Blue */
+    
+    /* Shadows and Effects */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Border Radius */
+    --radius-sm: 0.375rem;
+    --radius: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    
+    /* Typography */
+    --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-family-serif: 'Playfair Display', Georgia, serif;
+    
+    /* Transitions */
+    --transition-fast: 150ms ease-in-out;
+    --transition: 250ms ease-in-out;
+    --transition-slow: 350ms ease-in-out;
 } 
+
+/* ====================================
+   BASE STYLES
+   ==================================== */
 
 body { 
- font-family: 'Montserrat', sans-serif; 
- margin: 0; 
- font-weight: 300; /* Menggunakan font yang lebih ringan untuk teks utama */ 
- padding: 0; 
- background-color: var(--bg-color); 
- color: var(--text-color); 
- line-height: 1.6; 
+    font-family: var(--font-family-sans); 
+    margin: 0; 
+    padding: 0; 
+    background-color: var(--bg-color); 
+    color: var(--text-color); 
+    line-height: 1.6; 
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 } 
+
+/* Screen Reader Only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ====================================
+   HEADER DESIGN
+   ==================================== */
 
 header { 
- background-color: var(--primary-color); 
- color: var(--text-light); 
- padding: 0.8em 0; /* Header lebih ramping */ 
- text-align: center; 
- box-shadow: var(--shadow); 
- border-bottom: 3px solid var(--accent-color); /* Aksen di bawah header */ 
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: var(--text-light); 
+    padding: var(--space-lg) 0; 
+    box-shadow: var(--shadow-lg); 
+    position: relative;
+    overflow: hidden;
 } 
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+}
 
 header h1 { 
- font-family: 'Playfair Display', serif; /* Font judul yang elegan */ 
- margin: 0; 
- font-size: 1.7rem; /* Ukuran judul diperkecil lagi */ 
- font-weight: 700; /* Bold untuk Playfair Display */ 
- color: var(--accent-color); 
+    font-family: var(--font-family-serif);
+    margin: 0; 
+    font-size: 2rem; 
+    font-weight: 600; 
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    position: relative;
+    z-index: 1;
 } 
+
+.logo-icon {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
 
 .header-content { 
- display: flex; 
- justify-content: space-between; 
- align-items: center; 
- max-width: 1200px; 
- margin: 0 auto; 
- padding: 0 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 var(--space-xl);
+    position: relative;
+    z-index: 1;
 } 
 
+/* ====================================
+   NAVIGATION & BUTTONS
+   ==================================== */
+
 .install-button { 
-   background-color: var(--accent-color); 
-   color: var(--text-light); 
-   border: none; 
-   padding: 8px 18px; /* Padding lebih seimbang */ 
-   border-radius: 6px; /* Sudut lebih lembut */ 
-   transition: all 0.3s; 
-   font-family: 'Montserrat', sans-serif; 
-   font-size: 0.8em; /* Font lebih kecil */ 
-   cursor: pointer; 
-   margin-right: 15px; 
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
+    color: var(--text-light); 
+    border: none; 
+    padding: var(--space-sm) var(--space-lg); 
+    border-radius: var(--radius-lg); 
+    transition: all var(--transition); 
+    font-family: var(--font-family-sans); 
+    font-size: 0.875rem; 
+    font-weight: 500;
+    cursor: pointer; 
+    margin-right: var(--space);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    box-shadow: var(--shadow);
+    transform: translateY(0);
 } 
 
 .install-button:hover { 
-   background-color: #c95a4a; /* Warna aksen sedikit lebih gelap saat hover */ 
-   border-color: #c95a4a; 
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent-color) 100%);
 } 
+
+.install-button:active {
+    transform: translateY(0);
+}
 
 header nav a { 
- color: var(--text-light); text-decoration: none; border: 1px solid var(--text-light); padding: 7px 18px; border-radius: 6px; transition: all 0.3s; font-size: 0.8em; 
+    color: var(--text-light); 
+    text-decoration: none; 
+    border: 2px solid rgba(255, 255, 255, 0.3); 
+    padding: var(--space-sm) var(--space-lg); 
+    border-radius: var(--radius-lg); 
+    transition: all var(--transition); 
+    font-size: 0.875rem; 
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    backdrop-filter: blur(10px);
 } 
-header nav a:hover { background-color: var(--text-light); color: var(--primary-color); } 
+
+header nav a:hover { 
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+} 
+
+/* ====================================
+   MAIN CONTENT LAYOUT
+   ==================================== */
 
 main { 
- max-width: 1200px; 
- margin: 40px auto; /* Lebih banyak ruang dari header */ 
- padding: 20px;  
+    max-width: 1200px; 
+    margin: var(--space-2xl) auto; 
+    padding: 0 var(--space-xl);  
+} 
+
+/* ====================================
+   SEARCH & FILTER COMPONENTS
+   ==================================== */
+
+.search-section,
+.filter-section {
+    margin-bottom: var(--space-2xl);
+}
+
+.rekap-search-container { 
+    margin-bottom: var(--space-xl); 
+    position: relative; 
+} 
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: var(--space);
+    z-index: 2;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    pointer-events: none;
+}
+
+.rekap-search-container input,
+.filter-container input { 
+    width: 100%; 
+    padding: var(--space) var(--space) var(--space) 3rem; 
+    border: 2px solid var(--border-color); 
+    border-radius: var(--radius-xl); 
+    font-family: var(--font-family-sans); 
+    transition: all var(--transition); 
+    font-size: 1rem; 
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow-sm);
+} 
+
+.rekap-search-container input:focus,
+.filter-container input:focus { 
+    outline: none; 
+    border-color: var(--primary-color); 
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), var(--shadow);
+    transform: translateY(-1px);
 } 
 
 .filter-container { 
- display: flex; 
- gap: 10px; 
- margin-bottom: 20px; 
- flex-wrap: wrap; 
- background-color: var(--card-bg); 
- padding: 20px; 
- border-radius: 8px; 
- box-shadow: var(--shadow); 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg); 
+    background: linear-gradient(135deg, var(--card-bg) 0%, #f8fafc 100%);
+    padding: var(--space-2xl); 
+    border-radius: var(--radius-xl); 
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-light);
 } 
 
-.filter-container input, .filter-container select { 
- padding: 14px; 
- border: 1px solid var(--border-color); 
- border-radius: 8px; 
- flex-grow: 1; 
- font-family: 'Montserrat', sans-serif; 
- font-size: 0.9rem; 
- transition: border-color 0.3s, box-shadow 0.3s; 
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.filter-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.label-icon {
+    font-size: 1rem;
+}
+
+.filter-container select { 
+    padding: var(--space) var(--space-lg); 
+    border: 2px solid var(--border-color); 
+    border-radius: var(--radius-lg); 
+    font-family: var(--font-family-sans); 
+    font-size: 0.9rem; 
+    transition: all var(--transition); 
+    background-color: var(--card-bg);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right var(--space-sm) center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 3rem;
 } 
 
-.filter-container input:focus, .filter-container select:focus { 
- outline: none; 
- border-color: var(--accent-color); 
- box-shadow: 0 0 0 3px rgba(226, 109, 91, 0.25); 
+.filter-container select:focus { 
+    outline: none; 
+    border-color: var(--primary-color); 
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 } 
 
 .participant-search-wrapper { 
-  position: relative; 
-  flex-grow: 1; 
+    position: relative; 
 } 
 
-/* Pastikan input pencarian mengisi wrapper-nya */ 
 .participant-search-wrapper input { 
-  width: 100%; 
+    width: 100%; 
 } 
+
+/* ====================================
+   SEARCH RESULTS
+   ==================================== */
+
+.search-results-list { 
+    position: absolute; 
+    background-color: var(--card-bg); 
+    width: 100%; 
+    border: 1px solid var(--border-color); 
+    border-radius: var(--radius-lg); 
+    box-shadow: var(--shadow-lg); 
+    margin-top: var(--space-xs);
+    max-height: 300px; 
+    overflow-y: auto; 
+    z-index: 20;
+    backdrop-filter: blur(10px);
+} 
+
+.search-result-item { 
+    padding: var(--space) var(--space-lg); 
+    cursor: pointer; 
+    transition: all var(--transition-fast); 
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-weight: 500;
+} 
+
+.search-result-item:hover { 
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    color: var(--text-light);
+    transform: translateX(4px);
+} 
+
+.search-result-item:not(:last-child) { 
+    border-bottom: 1px solid var(--border-light); 
+} 
+
+/* ====================================
+   TABLE DESIGN
+   ==================================== */
+
+.table-container {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-light);
+}
 
 #jadwal-table { 
- width: 100%; 
- border-collapse: collapse; 
- margin-top: 20px; 
- box-shadow: var(--shadow); 
- background-color: var(--card-bg); 
- border-radius: 8px; 
- overflow: hidden; /* Agar border-radius terlihat di tabel */ 
+    width: 100%; 
+    border-collapse: collapse; 
+    background-color: var(--card-bg); 
+    font-size: 0.9rem;
 } 
 
 #jadwal-table th, 
 #jadwal-table td { 
- padding: 15px; 
- text-align: left; 
- border-bottom: 1px solid var(--border-color); 
- font-size: 0.9rem; 
+    padding: var(--space-lg); 
+    text-align: left; 
+    border-bottom: 1px solid var(--border-light); 
 } 
 
+.th-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.8rem;
+}
+
+.th-icon {
+    font-size: 1rem;
+}
+
 #jadwal-table th { 
- background-color: var(--primary-color); 
- color: var(--text-light); 
- font-weight: 600; 
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: var(--text-light); 
+    position: relative;
+    cursor: pointer;
+    transition: all var(--transition);
+} 
+
+#jadwal-table th:hover {
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+}
+
+#jadwal-table tbody tr { 
+    transition: all var(--transition-fast);
+    border-left: 4px solid transparent;
 } 
 
 #jadwal-table tbody tr:hover { 
- background-color: #fdf0ed; /* Warna hover sangat lembut dari aksen */ 
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0.02) 100%);
+    border-left-color: var(--primary-color);
+    transform: translateX(2px);
 } 
 
-#loading-indicator { 
- text-align: center; 
- padding: 20px; 
- font-size: 1.2em; 
- font-weight: 400; 
- color: var(--accent-color); 
+/* ====================================
+   LOADING INDICATOR
+   ==================================== */
+
+.loading-indicator { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2xl); 
+    font-size: 1.1rem; 
+    font-weight: 500; 
+    color: var(--primary-color);
+    gap: var(--space);
 } 
 
-/* --- Style untuk Baris yang Bisa Diekspansi --- */ 
+.loading-spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ====================================
+   EXPANDABLE ROWS
+   ==================================== */
+
 .summary-row { 
- cursor: pointer; 
- transition: background-color 0.2s ease; 
+    cursor: pointer; 
+    transition: all var(--transition); 
 } 
 
 .summary-row:hover { 
- background-color: #fdf0ed; /* Warna hover yang sudah ada */ 
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0.04) 100%);
 } 
 
 .detail-row { 
- display: none; /* Sembunyikan secara default */ 
+    display: none; 
 } 
 
 .detail-row.visible { 
- display: table-row; /* Tampilkan sebagai baris tabel */ 
- background-color: #f8f8f8; 
+    display: table-row; 
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 } 
 
 .detail-content { 
- padding: 15px 20px 20px 20px; 
+    padding: var(--space-lg) var(--space-xl); 
+    border-left: 4px solid var(--accent-color);
 } 
 
 .detail-content p { 
- margin: 8px 0; 
- font-size: 0.95em; 
+    margin: var(--space-sm) 0; 
+    font-size: 0.95em; 
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
 } 
 
 .detail-content p strong { 
- color: var(--primary-color); 
- min-width: 130px; 
- display: inline-block; 
+    color: var(--primary-color); 
+    min-width: 140px; 
+    font-weight: 600;
 } 
 
-/* Indikator Panah */ 
-.summary-row td:last-child { position: relative; } 
+/* Arrow indicators */
+.summary-row td:last-child { 
+    position: relative; 
+} 
+
 .summary-row td:last-child::after { 
- content: '▼'; position: absolute; right: 20px; top: 50%; 
- transform: translateY(-50%) rotate(0deg); transition: transform 0.3s ease; 
- font-size: 0.8em; color: var(--accent-color); 
+    content: '▼'; 
+    position: absolute; 
+    right: var(--space-lg); 
+    top: 50%; 
+    transform: translateY(-50%) rotate(0deg); 
+    transition: transform var(--transition); 
+    font-size: 0.8em; 
+    color: var(--primary-color);
+    font-weight: bold;
 } 
-.summary-row.expanded td:last-child::after { transform: translateY(-50%) rotate(180deg); } 
 
-/* --- Perbaikan Tampilan Mobile --- */ 
+.summary-row.expanded td:last-child::after { 
+    transform: translateY(-50%) rotate(180deg); 
+} 
+
+/* ====================================
+   RESPONSIVE DESIGN
+   ==================================== */
+
+@media screen and (max-width: 1024px) {
+    .header-content {
+        padding: 0 var(--space-lg);
+    }
+    
+    main {
+        padding: 0 var(--space-lg);
+        margin: var(--space-xl) auto;
+    }
+    
+    .filter-container {
+        grid-template-columns: 1fr;
+        gap: var(--space);
+        padding: var(--space-lg);
+    }
+}
+
 @media screen and (max-width: 768px) { 
-  .filter-container { 
-    flex-direction: column; 
-  } 
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .logo-icon {
+        font-size: 2rem;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: var(--space);
+        text-align: center;
+    }
+    
+    .header-content nav {
+        display: flex;
+        gap: var(--space-sm);
+    }
+    
+    .install-button {
+        margin-right: 0;
+        font-size: 0.8rem;
+        padding: var(--space-sm);
+    }
+    
+    header nav a {
+        font-size: 0.8rem;
+        padding: var(--space-sm);
+    }
+    
+    main {
+        margin: var(--space-lg) auto;
+        padding: 0 var(--space);
+    }
 
-  /* Perkecil kalender di mobile */ 
-  #calendar-container { 
-    padding: 10px; 
-  } 
+    .filter-container { 
+        padding: var(--space);
+    } 
 
-  .calendar-header h3 { 
-    font-size: 1.1rem; 
-  } 
+    #jadwal-table th,
+    #jadwal-table td {
+        padding: var(--space-sm);
+        font-size: 0.8rem;
+    }
+    
+    .th-content {
+        flex-direction: column;
+        gap: var(--space-xs);
+        text-align: center;
+    }
 
-  .calendar-grid th { 
-    padding: 8px 2px; 
-    font-size: 0.65rem; /* Font header hari lebih kecil */ 
-  } 
+    /* Hide some table columns on mobile */
+    #jadwal-table th:nth-child(2),
+    #jadwal-table td:nth-child(2) {
+        display: none;
+    }
 
-  .calendar-grid td { 
-    padding: 5px 2px; 
-    font-size: 0.75rem; /* Font angka tanggal lebih kecil */ 
-  } 
+    .calendar-header h3 { 
+        font-size: 1.1rem; 
+    } 
 
+    .calendar-grid th { 
+        padding: var(--space-sm) var(--space-xs); 
+        font-size: 0.7rem; 
+    } 
+
+    .calendar-grid td { 
+        padding: var(--space-xs); 
+        font-size: 0.8rem; 
+    } 
 } 
 
-/* --- Style untuk Pencarian Rekap --- */ 
-.rekap-search-container { 
- margin-bottom: 20px; 
- position: relative; 
+@media screen and (max-width: 480px) {
+    header h1 {
+        font-size: 1.3rem;
+    }
+    
+    .header-content {
+        padding: 0 var(--space);
+    }
+    
+    main {
+        padding: 0 var(--space-sm);
+    }
+    
+    .filter-container {
+        padding: var(--space-sm);
+    }
+    
+    .rekap-search-container input {
+        padding: var(--space-sm) var(--space-sm) var(--space-sm) 2.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .search-icon {
+        left: var(--space-sm);
+        font-size: 1rem;
+    }
+}
+
+/* ====================================
+   PARTICIPANT DETAILS PAGE
+   ==================================== */
+
+.hidden { 
+    display: none !important; 
 } 
 
-.rekap-search-container input { 
- width: 100%; 
- padding: 14px; 
- border: 1px solid var(--border-color); 
- border-radius: 8px; 
- font-family: 'Montserrat', sans-serif; 
- transition: border-color 0.3s, box-shadow 0.3s; 
- font-size: 0.9rem; 
- box-shadow: var(--shadow); 
+.welcome-message { 
+    text-align: center; 
+    color: var(--text-muted); 
+    margin-top: var(--space-2xl);
+    padding: var(--space-2xl);
+    background: linear-gradient(135deg, var(--card-bg) 0%, #f8fafc 100%);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-light);
 } 
 
-.rekap-search-container input:focus { 
- outline: none; 
- border-color: var(--accent-color); 
- box-shadow: 0 0 0 3px rgba(226, 109, 91, 0.25); 
+.welcome-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.welcome-message h2 {
+    font-family: var(--font-family-serif);
+    color: var(--primary-color);
+    margin-bottom: var(--space-sm);
+    font-size: 1.5rem;
+}
+
+.welcome-message p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.participant-details { 
+    margin-top: var(--space-2xl); 
 } 
 
-.search-results-list { 
- position: absolute; 
- background-color: var(--card-bg); 
- width: 100%; 
- border: 1px solid var(--border-color); 
- border-radius: 0 0 8px 8px; 
- box-shadow: var(--shadow); 
- margin-top: 4px; /* Beri sedikit jarak agar tidak tumpang tindih */ 
- max-height: 250px; /* Batasi tinggi dan buat bisa di-scroll */ 
- overflow-y: auto; 
- z-index: 10; 
+.participant-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xl);
+    padding: var(--space-xl);
+    background: linear-gradient(135deg, var(--card-bg) 0%, #f8fafc 100%);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-color);
+}
+
+.participant-name { 
+    font-family: var(--font-family-serif); 
+    color: var(--primary-color); 
+    font-size: 1.8rem; 
+    font-weight: 600; 
+    margin: 0;
 } 
 
-.search-result-item { 
- padding: 12px 20px; 
- cursor: pointer; 
- transition: background-color 0.2s ease; 
-} 
+.participant-stats {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    color: var(--text-light);
+    padding: var(--space-sm) var(--space);
+    border-radius: var(--radius-lg);
+    font-weight: 500;
+    box-shadow: var(--shadow);
+}
 
-.search-result-item:hover { 
- background-color: #fdf0ed; 
-} 
-
-.search-result-item:not(:last-child) { 
- border-bottom: 1px solid var(--border-color); 
-} 
-
-/* --- Style untuk Halaman Rekap --- */ 
-.hidden { display: none !important; } 
-#initial-prompt { text-align: center; color: #777; margin-top: 40px; } 
-
-#participant-details-container { 
- margin-top: 30px; 
-} 
-
-#participant-name-heading { 
- font-family: 'Playfair Display', serif; 
- color: var(--primary-color); 
- border-bottom: 2px solid var(--accent-color); 
- padding-bottom: 10px; 
- font-size: 1.5rem; /* Ukuran judul diperkecil lagi */ 
- font-weight: 600; 
-} 
+.stats-icon {
+    font-size: 1.2rem;
+}
 
 .schedule-count-badge { 
-  font-family: 'Montserrat', sans-serif; 
-  font-weight: 400; 
-  font-size: 0.9rem; 
-  color: #777; 
-  margin-left: 10px; 
+    font-family: var(--font-family-sans); 
+    font-weight: 600; 
+    font-size: 1rem; 
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
+    color: var(--text-light);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius);
+    min-width: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
 } 
 
-#participant-details-container h3 { 
- font-family: 'Playfair Display', serif; 
- font-size: 1.2rem; /* Ukuran sub-judul diperkecil lagi */ 
- color: var(--primary-color); 
+.schedule-list-section {
+    margin-top: var(--space-xl);
+}
+
+.schedule-list-title { 
+    font-family: var(--font-family-serif); 
+    font-size: 1.3rem; 
+    color: var(--primary-color); 
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+    font-weight: 600;
 } 
 
-#participant-schedule-list { 
- list-style-type: none; 
- padding: 0; 
- margin-top: 20px; 
+.title-icon {
+    font-size: 1.5rem;
+}
+
+.schedule-list { 
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0;
+    display: grid;
+    gap: var(--space);
 } 
 
-#participant-schedule-list li { 
- margin-bottom: 10px; 
- background-color: var(--card-bg); 
- border-radius: 8px; 
- box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
- overflow: hidden; /* Penting untuk border-radius */ 
+.schedule-list li { 
+    background-color: var(--card-bg); 
+    border-radius: var(--radius-lg); 
+    box-shadow: var(--shadow); 
+    overflow: hidden; 
+    border: 1px solid var(--border-light);
+    transition: all var(--transition);
 } 
 
-#participant-schedule-list li.highlighted { 
-  transition: background-color 0.5s ease; 
-  background-color: #fffbe6; /* Warna sorotan kuning lembut */ 
-  box-shadow: 0 4px 10px rgba(226, 109, 91, 0.2); /* Bayangan aksen */ 
+.schedule-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.schedule-list li.highlighted { 
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2);
 } 
 
 .schedule-summary { 
- padding: 15px; 
- cursor: pointer; 
- position: relative; 
- border-left: 4px solid var(--accent-color); 
- transition: background-color 0.2s; 
+    padding: var(--space-lg); 
+    cursor: pointer; 
+    position: relative; 
+    border-left: 4px solid var(--accent-color); 
+    transition: all var(--transition); 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 } 
 
 .schedule-summary:hover { 
- background-color: #fdfaf9; 
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(245, 158, 11, 0.02) 100%);
 } 
 
 .schedule-summary::after { 
- content: '▼'; 
- position: absolute; 
- right: 20px; 
- top: 50%; 
- transform: translateY(-50%) rotate(0deg); 
- transition: transform 0.3s ease; 
- font-size: 0.8em; 
- color: var(--accent-color); 
+    content: '▼'; 
+    font-size: 0.9em; 
+    color: var(--accent-color); 
+    transition: transform var(--transition); 
+    font-weight: bold;
 } 
 
 .schedule-summary.expanded::after { 
- transform: translateY(-50%) rotate(180deg); 
+    transform: rotate(180deg); 
 } 
 
 .schedule-details { 
- display: none; /* Sembunyikan detail secara default */ 
- padding: 0 20px 15px 20px; 
- background-color: #f8f8f8; 
- border-top: 1px solid var(--border-color); 
+    display: none; 
+    padding: 0 var(--space-lg) var(--space-lg) var(--space-lg); 
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-top: 1px solid var(--border-light); 
 } 
 
 .schedule-details.visible { 
- display: block; 
+    display: block; 
+    animation: slideDown var(--transition) ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 } 
 
-/* --- Style untuk Kalender --- */ 
+/* ====================================
+   CALENDAR COMPONENT
+   ==================================== */
+
+.calendar-section {
+    margin-bottom: var(--space-2xl);
+}
+
 #calendar-container { 
- background-color: var(--card-bg); 
- padding: 20px; 
- border-radius: 8px; 
- box-shadow: var(--shadow); 
- margin-bottom: 30px; 
+    background: linear-gradient(135deg, var(--card-bg) 0%, #f8fafc 100%);
+    padding: var(--space-2xl); 
+    border-radius: var(--radius-xl); 
+    box-shadow: var(--shadow-lg); 
+    border: 1px solid var(--border-light);
 } 
 
-.calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; } 
-.calendar-header h3 { margin: 0; color: var(--primary-color); font-size: 1.3rem; font-family: 'Playfair Display', serif; } /* Ukuran judul kalender diperkecil lagi */ 
-.calendar-nav { border: none; background: var(--primary-color); color: white; padding: 5px 12px; border-radius: 5px; cursor: pointer; transition: background-color 0.2s; } 
-.calendar-nav:hover { background-color: #083344; } /* Sedikit lebih gelap saat hover */ 
+.calendar-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: var(--space-lg); 
+} 
 
-.calendar-grid { width: 100%; border-collapse: collapse; text-align: center; } 
-.calendar-grid th { padding: 10px; font-weight: 600; color: var(--accent-color); } 
+.calendar-header h3 { 
+    margin: 0; 
+    color: var(--primary-color); 
+    font-size: 1.5rem; 
+    font-family: var(--font-family-serif); 
+    font-weight: 600;
+} 
+
+.calendar-nav { 
+    border: none; 
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: var(--text-light); 
+    padding: var(--space-sm) var(--space); 
+    border-radius: var(--radius-lg); 
+    cursor: pointer; 
+    transition: all var(--transition); 
+    font-weight: 500;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+} 
+
+.calendar-nav:hover { 
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+} 
+
+.calendar-grid { 
+    width: 100%; 
+    border-collapse: collapse; 
+    text-align: center; 
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+} 
+
+.calendar-grid th { 
+    padding: var(--space); 
+    font-weight: 600; 
+    color: var(--text-light); 
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+} 
+
 .calendar-grid td { 
- padding: 12px 5px; border: 1px solid var(--border-color); vertical-align: middle; color: #aaa; /* Warna angka lebih pudar */ 
+    padding: var(--space) var(--space-sm); 
+    border: 1px solid var(--border-light); 
+    vertical-align: middle; 
+    color: var(--text-muted); 
+    background-color: var(--card-bg);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    position: relative;
 } 
-.calendar-grid .other-month { color: #ccc; } 
+
+.calendar-grid td:hover {
+    background-color: var(--border-light);
+    transform: scale(1.05);
+}
+
+.calendar-grid .other-month { 
+    color: #d1d5db; 
+    background-color: #f9fafb;
+} 
+
 .calendar-grid .today { 
- font-weight: bold; background-color: #fdf0ed; color: var(--text-color); /* Pastikan tanggal hari ini tetap jelas */ 
+    font-weight: bold; 
+    background: linear-gradient(135deg, var(--info-color) 0%, var(--primary-light) 100%);
+    color: var(--text-light); 
+    box-shadow: inset 0 0 0 2px rgba(59, 130, 246, 0.3);
 } 
+
 .calendar-grid .has-schedule { 
- color: var(--accent-color); 
- cursor: pointer; 
- font-weight: 700; /* Bold font for highlight */ 
- transition: transform 0.2s; 
+    color: var(--text-light); 
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
+    cursor: pointer; 
+    font-weight: 700; 
+    transition: all var(--transition);
+    box-shadow: var(--shadow-sm);
 } 
 
 .calendar-grid .has-schedule:hover { 
- transform: scale(1.1); 
+    transform: scale(1.1);
+    box-shadow: var(--shadow);
+    background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent-color) 100%);
+}
+
+.calendar-grid .has-schedule::after {
+    content: '●';
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    font-size: 0.6rem;
+    color: var(--text-light);
+}
+
+/* ====================================
+   NOTIFICATION COMPONENTS
+   ==================================== */
+
+.update-notification {
+    position: fixed;
+    bottom: var(--space-xl);
+    right: var(--space-xl);
+    background: linear-gradient(135deg, var(--card-bg) 0%, #f8fafc 100%);
+    border: 2px solid var(--info-color);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    z-index: 1000;
+    animation: slideInRight var(--transition-slow) ease-out;
+    max-width: 400px;
+}
+
+.notification-content {
+    padding: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space);
+}
+
+.notification-icon {
+    font-size: 1.5rem;
+    color: var(--info-color);
+}
+
+.notification-text strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.notification-text p {
+    margin: var(--space-xs) 0 0 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.update-button {
+    background: linear-gradient(135deg, var(--info-color) 0%, var(--primary-color) 100%);
+    color: var(--text-light);
+    border: none;
+    padding: var(--space-sm) var(--space);
+    border-radius: var(--radius-lg);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+    box-shadow: var(--shadow);
+}
+
+.update-button:hover {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ====================================
+   UTILITY CLASSES
+   ==================================== */
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.font-bold { font-weight: 600; }
+.font-semibold { font-weight: 500; }
+.font-light { font-weight: 300; }
+
+.text-primary { color: var(--primary-color); }
+.text-accent { color: var(--accent-color); }
+.text-muted { color: var(--text-muted); }
+
+.bg-primary { background-color: var(--primary-color); }
+.bg-accent { background-color: var(--accent-color); }
+.bg-card { background-color: var(--card-bg); }
+
+.rounded { border-radius: var(--radius); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-xl { border-radius: var(--radius-xl); }
+
+.shadow { box-shadow: var(--shadow); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+
+/* ====================================
+   ENHANCED FOCUS STYLES
+   ==================================== */
+
+*:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+button:focus,
+input:focus,
+select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ====================================
+   ENHANCED ANIMATIONS & INTERACTIONS
+   ==================================== */
+
+/* Smooth page transitions */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Enhanced hover effects for interactive elements */
+button, .search-result-item, .schedule-summary, .calendar-grid td, header nav a, .install-button {
+    will-change: transform;
+}
+
+/* Micro-interactions for better feedback */
+.filter-container input:focus,
+.rekap-search-container input:focus {
+    animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+    0% { 
+        transform: scale(1); 
+    }
+    50% { 
+        transform: scale(1.02); 
+    }
+    100% { 
+        transform: scale(1); 
+    }
+}
+
+/* Staggered animations for list items */
+.schedule-list li {
+    animation: slideInUp 0.4s ease-out;
+    animation-fill-mode: backwards;
+}
+
+.schedule-list li:nth-child(1) { animation-delay: 0.1s; }
+.schedule-list li:nth-child(2) { animation-delay: 0.2s; }
+.schedule-list li:nth-child(3) { animation-delay: 0.3s; }
+.schedule-list li:nth-child(4) { animation-delay: 0.4s; }
+.schedule-list li:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Enhanced table row animations */
+#jadwal-table tbody tr {
+    animation: fadeInRow 0.3s ease-out;
+    animation-fill-mode: backwards;
+}
+
+@keyframes fadeInRow {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Calendar date hover effect improvement */
+.calendar-grid .has-schedule {
+    position: relative;
+    overflow: hidden;
+}
+
+.calendar-grid .has-schedule::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+
+.calendar-grid .has-schedule:hover::before {
+    left: 100%;
+}
+
+/* Enhanced focus indicators for accessibility */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2);
+}
+
+/* Smooth scrolling for better UX */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Enhanced loading states */
+.loading-indicator .loading-spinner {
+    animation: spin 1s linear infinite, pulse 2s ease-in-out infinite alternate;
+}
+
+/* ====================================
+   ADDITIONAL MOBILE ENHANCEMENTS
+   ==================================== */
+
+@media (max-width: 768px) {
+    /* Improved touch targets */
+    button, .search-result-item, .schedule-summary {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Better spacing for mobile */
+    .participant-header {
+        flex-direction: column;
+        gap: var(--space);
+        text-align: center;
+    }
+    
+    .participant-stats {
+        justify-content: center;
+    }
+    
+    /* Optimized calendar for mobile */
+    .calendar-grid th,
+    .calendar-grid td {
+        min-width: 40px;
+        min-height: 40px;
+    }
+    
+    /* Mobile-friendly notifications */
+    .update-notification {
+        bottom: var(--space);
+        right: var(--space);
+        left: var(--space);
+        max-width: none;
+    }
+}
+
+/* ====================================
+   PERFORMANCE OPTIMIZATIONS
+   ==================================== */
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --border-color: #000000;
+        --text-muted: #000000;
+        --shadow: 0 0 0 1px #000000;
+    }
+}
+
+/* Dark mode support (if browser supports it) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #0f172a;
+        --card-bg: #1e293b;
+        --text-color: #f1f5f9;
+        --text-muted: #94a3b8;
+        --border-color: #334155;
+        --border-light: #475569;
+    }
+    
+    .welcome-message,
+    .filter-container,
+    #calendar-container {
+        background: linear-gradient(135deg, var(--card-bg) 0%, #0f172a 100%);
+    }
 }

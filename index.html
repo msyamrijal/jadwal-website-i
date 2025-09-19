@@ -3,54 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aplikasi manajemen jadwal yang elegan dan mudah digunakan">
+    <meta name="keywords" content="jadwal, schedule, manajemen, calendar">
+    <meta name="author" content="Jadwalku App">
+    
+    <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">    <title>Jadwal</title>
+    
+    <!-- Enhanced font selection for elegance -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <title>Jadwalku - Manajemen Jadwal Elegan</title>
+    <!-- PWA and favicon configuration -->
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <meta name="theme-color" content="#2c3e50">
-    <link rel="stylesheet" href="style.css"> <!-- Kita gunakan kembali style utama -->
+    <meta name="theme-color" content="#0b435c">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
+    <header role="banner">
         <div class="header-content">
-            <h1>Jadwalku</h1>
-            <nav>
-                <button id="install-button" class="install-button" hidden>Install Aplikasi</button>
-                <a href="jadwal.html">Lihat Jadwal</a>
+            <h1>
+                <span class="logo-icon">📅</span>
+                Jadwalku
+            </h1>
+            <nav role="navigation" aria-label="Navigation utama">
+                <button id="install-button" class="install-button" hidden aria-label="Install aplikasi">
+                    <span class="button-icon">📱</span>
+                    Install Aplikasi
+                </button>
+                <a href="jadwal.html" aria-label="Lihat semua jadwal">
+                    <span class="link-icon">👁️</span>
+                    Lihat Jadwal
+                </a>
             </nav>
         </div>
     </header>
 
-    <main>
-        <div class="rekap-search-container">
-            <input type="text" id="rekap-search" placeholder="Cari nama peserta...">
-            <!-- Hasil pencarian akan muncul di sini -->
-            <div id="search-results" class="search-results-list"></div>
-        </div>
+    <main role="main">
+        <section class="search-section" aria-labelledby="search-heading">
+            <h2 id="search-heading" class="sr-only">Pencarian Jadwal Peserta</h2>
+            <div class="rekap-search-container">
+                <div class="search-input-wrapper">
+                    <span class="search-icon" aria-hidden="true">🔍</span>
+                    <input 
+                        type="text" 
+                        id="rekap-search" 
+                        placeholder="Cari nama peserta..."
+                        aria-label="Masukkan nama peserta untuk mencari jadwal"
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+                </div>
+                <div id="search-results" class="search-results-list" role="listbox" aria-label="Hasil pencarian peserta"></div>
+            </div>
+        </section>
         
-        <div id="loading-indicator" style="display: none;">Memuat data...</div>
-
-        <!-- Kontainer untuk menampilkan detail peserta dan kalender (awalnya tersembunyi) -->
-        <div id="participant-details-container" class="hidden">
-            <h2 id="participant-name-heading"></h2>
-            <div id="calendar-container"></div>
-            <h3>Daftar Jadwal: <span id="schedule-count" class="schedule-count-badge"></span></h3>
-            <ul id="participant-schedule-list"></ul>
+        <div id="loading-indicator" class="loading-indicator" style="display: none;" role="status" aria-live="polite">
+            <div class="loading-spinner"></div>
+            <span>Memuat data...</span>
         </div>
 
-        <!-- Pesan awal -->
-        <p id="initial-prompt">Ketik nama peserta di atas untuk melihat rekap jadwal dan kalender.</p>
+        <section id="participant-details-container" class="participant-details hidden" aria-labelledby="participant-name-heading">
+            <header class="participant-header">
+                <h2 id="participant-name-heading" class="participant-name"></h2>
+                <div class="participant-stats">
+                    <span class="stats-icon" aria-hidden="true">📊</span>
+                    <span class="stats-text">Total Jadwal: </span>
+                    <span id="schedule-count" class="schedule-count-badge">0</span>
+                </div>
+            </header>
+            
+            <div id="calendar-container" class="calendar-section"></div>
+            
+            <section class="schedule-list-section" aria-labelledby="schedule-list-heading">
+                <h3 id="schedule-list-heading" class="schedule-list-title">
+                    <span class="title-icon" aria-hidden="true">📋</span>
+                    Daftar Jadwal
+                </h3>
+                <ul id="participant-schedule-list" class="schedule-list" role="list"></ul>
+            </section>
+        </section>
+
+        <div id="initial-prompt" class="welcome-message">
+            <div class="welcome-icon" aria-hidden="true">🎯</div>
+            <h2>Selamat Datang di Jadwalku</h2>
+            <p>Ketik nama peserta di atas untuk melihat rekap jadwal dan kalender.</p>
+        </div>
 
         <!-- Notifikasi Pembaruan Aplikasi -->
-        <div id="update-notification" style="display: none;">
-            <p>Versi baru tersedia!</p>
-            <button id="update-button">Perbarui Sekarang</button>
+        <div id="update-notification" class="update-notification" style="display: none;" role="alert" aria-live="assertive">
+            <div class="notification-content">
+                <span class="notification-icon" aria-hidden="true">🔄</span>
+                <div class="notification-text">
+                    <strong>Versi baru tersedia!</strong>
+                    <p>Aplikasi telah diperbarui dengan fitur terbaru.</p>
+                </div>
+                <button id="update-button" class="update-button" aria-label="Perbarui aplikasi sekarang">
+                    Perbarui Sekarang
+                </button>
+            </div>
         </div>
     </main>
 
+    <!-- Scripts -->
     <script src="idb.js"></script>
     <script src="db.js"></script>
     <script src="app.js"></script>
