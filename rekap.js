@@ -1,3 +1,5 @@
+import { fetchScheduleData, getRekap, saveRekap } from './db.js';
+
 let scheduleSummary = {};
 let allParticipantNames = [];
 let currentCalendarDate = new Date();

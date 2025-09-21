@@ -1,8 +1,8 @@
 
 import { db } from './firebase-config.js';
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { collection, getDocs, query, where, updateDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-async function fetchScheduleData() {
+export async function fetchScheduleData() {
   try {
     const querySnapshot = await getDocs(collection(db, "schedules"));
     const schedules = [];
@@ -11,6 +11,7 @@ async function fetchScheduleData() {
       // Konversi Firestore Timestamp kembali ke objek Date JavaScript
       // dan tambahkan ke dalam data agar bisa digunakan oleh fungsi lain.
       const scheduleWithDate = {
+        id: doc.id, // <-- Tambahkan ID dokumen Firestore
         ...data,
         // Firestore menyimpan 'Tanggal' sebagai Timestamp, kita ubah jadi JS Date
         // Fungsi lain seperti parseDateFromString tidak diperlukan lagi
@@ -24,23 +25,6 @@ async function fetchScheduleData() {
     console.error("Gagal mengambil data dari Firestore:", error);
     throw error;
   }
-}
-
-function parseDateFromString(dateStr) {
-    if (!dateStr) return null;
-    // Format: "MM/DD/YYYY HH:mm:ss" (from Google Sheets CSV)
-    const parts = dateStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}):(\d{2}):(\d{2})/);
-    if (!parts) {
-        // Fallback for "DD/MM/YYYY HH:mm" if the above doesn't match (e.g., for manual input or different sheet)
-        const fallbackParts = dateStr.match(/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})/);
-        if (fallbackParts) {
-            // parts[1]=DD, parts[2]=MM, parts[3]=YYYY, parts[4]=HH, parts[5]=mm
-            return new Date(fallbackParts[3], fallbackParts[2] - 1, fallbackParts[1], fallbackParts[4], fallbackParts[5]);
-        }
-        return null;
-    }
-    // parts[1]=MM, parts[2]=DD, parts[3]=YYYY, parts[4]=HH, parts[5]=mm, parts[6]=ss
-    return new Date(parts[3], parts[1] - 1, parts[2], parts[4], parts[5], parts[6]);
 }
 
 
@@ -69,7 +53,7 @@ function openDB() {
   });
 }
 
-async function saveSchedules(data) {
+export async function saveSchedules(data) {
   const db = await openDB(); // Fungsi ini sekarang akan digunakan oleh rekap.js
   const tx = db.transaction(SCHEDULE_STORE, 'readwrite');
   await tx.store.clear(); // Hapus data lama
@@ -80,7 +64,7 @@ async function saveSchedules(data) {
   console.log("Jadwal baru berhasil disimpan ke IndexedDB.");
 }
 
-async function saveRawSchedules(data) {
+export async function saveRawSchedules(data) {
     const db = await openDB();
     const tx = db.transaction(RAW_SCHEDULE_STORE, 'readwrite');
     await tx.store.clear(); // Hapus semua data lama
@@ -90,17 +74,17 @@ async function saveRawSchedules(data) {
     console.log("Data jadwal mentah berhasil disimpan ke IndexedDB.");
 }
 
-async function getSchedules() {
+export async function getSchedules() {
   const db = await openDB();
   return await db.getAll(SCHEDULE_STORE);
 }
 
-async function getRawSchedules() {
+export async function getRawSchedules() {
     const db = await openDB();
     return await db.get(RAW_SCHEDULE_STORE, 'all');
 }
 
-async function saveRekap(summaryData) {
+export async function saveRekap(summaryData) {
     const db = await openDB();
     const tx = db.transaction(REKAP_STORE, 'readwrite');
     await tx.store.clear();
@@ -112,7 +96,7 @@ async function saveRekap(summaryData) {
     console.log("Rekap baru berhasil disimpan ke IndexedDB.");
 }
 
-async function getRekap() {
+export async function getRekap() {
     const db = await openDB();
     const allRekap = await db.getAll(REKAP_STORE);
     // Ubah kembali dari array of objects ke format summary object

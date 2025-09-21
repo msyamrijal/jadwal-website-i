@@ -1,4 +1,6 @@
-let allData = []; // Variabel untuk menyimpan semua data asli dari spreadsheet
+import { fetchScheduleData, getRawSchedules, saveRawSchedules } from './db.js';
+
+let allData = []; // Variabel untuk menyimpan semua data asli
  let allParticipantNames = []; // Variabel untuk menyimpan semua nama peserta unik
 
  async function loadData() {
