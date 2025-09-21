@@ -11,6 +11,7 @@ const urlsToCache = [
   'idb.js', // File library IDB lokal
   'firebase-config.js', // File konfigurasi Firebase
   'login.js',
+  'dashboard.js',
   'db.js', // File database baru
   'app.js', // File baru
   'rekap.js',

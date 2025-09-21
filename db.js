@@ -27,6 +27,59 @@ export async function fetchScheduleData() {
   }
 }
 
+/**
+ * Mengambil jadwal di mana nama peserta yang diberikan muncul.
+ * @param {string} participantName Nama lengkap peserta.
+ * @returns {Promise<Array<Object>>} Array of schedule objects.
+ */
+export async function fetchSchedulesByParticipant(participantName) {
+  try {
+    // Firestore tidak mendukung query OR pada field yang berbeda secara native.
+    // Jadi, kita harus melakukan 12 query terpisah dan menggabungkan hasilnya.
+    const participantQueries = [];
+    for (let i = 1; i <= 12; i++) {
+      const q = query(collection(db, "schedules"), where(`Peserta ${i}`, "==", participantName));
+      participantQueries.push(getDocs(q));
+    }
+
+    const querySnapshots = await Promise.all(participantQueries);
+    const schedulesMap = new Map(); // Gunakan Map untuk menghindari duplikat
+
+    querySnapshots.forEach(snapshot => {
+      snapshot.forEach(doc => {
+        if (!schedulesMap.has(doc.id)) {
+          schedulesMap.set(doc.id, {
+            id: doc.id,
+            ...doc.data(),
+            dateObject: doc.data().Tanggal.toDate()
+          });
+        }
+      });
+    });
+
+    const schedules = Array.from(schedulesMap.values());
+    // Urutkan berdasarkan tanggal
+    schedules.sort((a, b) => a.dateObject - b.dateObject);
+    
+    console.log(`Ditemukan ${schedules.length} jadwal untuk ${participantName}`);
+    return schedules;
+
+  } catch (error) {
+    console.error(`Gagal mengambil jadwal untuk ${participantName}:`, error);
+    throw error;
+  }
+}
+
+/**
+ * Memperbarui dokumen jadwal tertentu di Firestore.
+ * @param {string} scheduleId ID dokumen yang akan diupdate.
+ * @param {Object} data Objek dengan field yang akan diupdate.
+ */
+export async function updateSchedule(scheduleId, data) {
+    const scheduleRef = doc(db, "schedules", scheduleId);
+    // Firestore secara otomatis mengonversi objek Date JavaScript ke Timestamp
+    await updateDoc(scheduleRef, data);
+}
 
 // --- FUNGSI DATABASE (INDEXEDDB) --- //
 
