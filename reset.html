@@ -2,148 +2,21 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Reset Aplikasi - Jadwalku</title>
+    <title>Reset Aplikasi</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #1e3a8a;
-            --accent-color: #f59e0b;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-color: #1f2937;
-            --text-muted: #6b7280;
-            --success-color: #10b981;
-            --error-color: #ef4444;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --radius-lg: 0.75rem;
-            --radius-xl: 1rem;
-            --space: 1rem;
-            --space-lg: 1.5rem;
-            --space-xl: 2rem;
-            --transition: 250ms ease-in-out;
-        }
-        
-        * {
-            box-sizing: border-box;
-        }
-        
-        body { 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0; 
-            background: linear-gradient(135deg, var(--bg-color) 0%, #e2e8f0 100%);
-            color: var(--text-color);
-            text-align: center; 
-            padding: var(--space);
-        }
-        
-        .container { 
-            padding: var(--space-xl); 
-            background: linear-gradient(135deg, var(--card-bg) 0%, #f8fafc 100%);
-            border-radius: var(--radius-xl); 
-            box-shadow: var(--shadow-lg); 
-            max-width: 500px; 
-            width: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .icon {
-            font-size: 3rem;
-            margin-bottom: var(--space);
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-        }
-        
-        h1 { 
-            color: var(--primary-color); 
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin: 0 0 var(--space) 0;
-        }
-        
-        .description { 
-            color: var(--text-muted); 
-            line-height: 1.6; 
-            margin-bottom: var(--space-lg);
-            font-size: 1.1rem;
-        }
-        
-        .status { 
-            margin-top: var(--space-lg); 
-            text-align: left; 
-            font-size: 0.9em; 
-            background-color: #f1f5f9;
-            padding: var(--space);
-            border-radius: var(--radius-lg);
-            border-left: 4px solid var(--primary-color);
-        }
-        
-        .status p { 
-            margin: var(--space) 0; 
-            display: flex;
-            align-items: center;
-            gap: var(--space);
-        }
-        
-        .status-icon {
-            font-size: 1.2rem;
-        }
-        
-        .success {
-            color: var(--success-color);
-        }
-        
-        .error {
-            color: var(--error-color);
-        }
-        
-        .loading {
-            color: var(--accent-color);
-        }
-        
-        .loading-spinner {
-            display: inline-block;
-            width: 1rem;
-            height: 1rem;
-            border: 2px solid var(--text-muted);
-            border-top: 2px solid var(--accent-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                padding: var(--space-lg);
-                margin: var(--space);
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            .icon {
-                font-size: 2.5rem;
-            }
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f4f9; text-align: center; padding: 1em; }
+        .container { padding: 2em; background-color: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 400px; }
+        h1 { color: #e26d5b; }
+        p { color: #333; line-height: 1.6; }
+        .status { margin-top: 1.5em; font-style: italic; color: #555; text-align: left; font-size: 0.9em; }
+        .status p { margin: 0.5em 0; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="icon">🔄</div>
-        <h1>Mereset Aplikasi</h1>
-        <p class="description">Harap tunggu. Cache dan data aplikasi sedang dibersihkan untuk memastikan Anda mendapatkan versi terbaru dengan fitur yang telah diperbarui.</p>
+        <h1>Mereset Aplikasi...</h1>
+        <p>Harap tunggu. Cache dan data aplikasi sedang dibersihkan untuk memastikan Anda mendapatkan versi terbaru.</p>
         <div id="status" class="status"></div>
     </div>
 
@@ -151,36 +24,26 @@
         async function hardResetApplication() {
             const statusDiv = document.getElementById('status');
             try {
-                statusDiv.innerHTML = '<p class="loading"><span class="loading-spinner"></span> Membatalkan pendaftaran Service Worker...</p>';
-                
+                statusDiv.innerHTML += '<p>1. Membatalkan pendaftaran Service Worker...</p>';
                 if ('serviceWorker' in navigator) {
                     const registrations = await navigator.serviceWorker.getRegistrations();
-                    for (const registration of registrations) { 
-                        await registration.unregister(); 
-                    }
-                    statusDiv.innerHTML += '<p class="success"><span class="status-icon">✅</span> Service Worker berhasil dihapus.</p>';
+                    for (const registration of registrations) { await registration.unregister(); }
+                    statusDiv.innerHTML += '<p>&#10004; Service Worker berhasil dihapus.</p>';
                 }
 
-                statusDiv.innerHTML += '<p class="loading"><span class="loading-spinner"></span> Menghapus semua cache...</p>';
-                
+                statusDiv.innerHTML += '<p>2. Menghapus semua cache...</p>';
                 if ('caches' in window) {
                     const keys = await caches.keys();
                     await Promise.all(keys.map(key => caches.delete(key)));
-                    statusDiv.innerHTML += '<p class="success"><span class="status-icon">✅</span> Semua cache berhasil dihapus.</p>';
+                    statusDiv.innerHTML += '<p>&#10004; Semua cache berhasil dihapus.</p>';
                 }
 
-                statusDiv.innerHTML += '<p class="loading"><span class="loading-spinner"></span> Memuat ulang aplikasi...</p>';
-                
-                // Tunggu sebentar untuk memberikan feedback visual
-                setTimeout(() => {
-                    window.location.href = '/'; // Arahkan kembali ke halaman utama
-                }, 1500);
-                
+                statusDiv.innerHTML += '<p>3. Memuat ulang aplikasi...</p>';
+                window.location.href = '/'; // Arahkan kembali ke halaman utama
             } catch (error) {
-                statusDiv.innerHTML = `<p class="error"><span class="status-icon">❌</span> <strong>Gagal!</strong> Terjadi kesalahan: ${error.message}. Silakan coba bersihkan cache browser secara manual.</p>`;
+                statusDiv.innerHTML = `<p style="color: red;"><strong>Gagal!</strong> Terjadi kesalahan. Silakan coba bersihkan cache browser secara manual.</p>`;
             }
         }
-        
         window.addEventListener('load', hardResetApplication);
     </script>
 </body>

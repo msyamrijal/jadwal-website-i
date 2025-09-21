@@ -1,131 +1,56 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Lihat semua jadwal dalam tampilan tabel yang elegan">
-    <meta name="keywords" content="jadwal, schedule, tabel, filter">
-    
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- Enhanced font selection for elegance -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <title>Jadwal - Lihat Semua Jadwal</title>
-    <!-- PWA and favicon configuration -->
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
-    <meta name="theme-color" content="#0b435c">
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header role="banner">
-        <div class="header-content">
-            <h1>
-                <span class="logo-icon">📅</span>
-                Jadwal
-            </h1>
-            <nav role="navigation" aria-label="Navigation utama">
-                <button id="install-button" class="install-button" hidden aria-label="Install aplikasi">
-                    <span class="button-icon">📱</span>
-                    Install Aplikasi
-                </button>
-                <a href="index.html" aria-label="Kembali ke halaman utama">
-                    <span class="link-icon">🏠</span>
-                    Ke Jadwalku
-                </a>
-            </nav>
-        </div>
-    </header>
+ <html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">  <title>Jadwal</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#2c3e50">
+  <link rel="stylesheet" href="style.css">
+ </head>
+ <body>
+  <header>
+    <div class="header-content">
+      <h1>Jadwaluna</h1>
+      <nav>
+        <button id="install-button" class="install-button" hidden>Install Aplikasi</button>
+        <a href="index.html">Ke Jadwalku</a>
+      </nav>
+    </div>
+  </header>
 
-    <main role="main">
-        <section class="filter-section" aria-labelledby="filter-heading">
-            <h2 id="filter-heading" class="sr-only">Filter dan Pencarian Jadwal</h2>
-            <div class="filter-container">
-                <div class="filter-group">
-                    <label for="filter-institusi" class="filter-label">
-                        <span class="label-icon" aria-hidden="true">🏢</span>
-                        Institusi
-                    </label>
-                    <select id="filter-institusi" aria-label="Filter berdasarkan institusi">
-                        <option value="">Semua Institusi</option>
-                    </select>
-                </div>
-                
-                <div class="filter-group">
-                    <label for="filter-mapel" class="filter-label">
-                        <span class="label-icon" aria-hidden="true">📚</span>
-                        Mata Pelajaran
-                    </label>
-                    <select id="filter-mapel" aria-label="Filter berdasarkan mata pelajaran">
-                        <option value="">Semua Mata Pelajaran</option>
-                    </select>
-                </div>
-                
-                <div class="filter-group participant-search-wrapper">
-                    <label for="filter-peserta" class="filter-label">
-                        <span class="label-icon" aria-hidden="true">👤</span>
-                        Peserta
-                    </label>
-                    <input 
-                        type="text" 
-                        id="filter-peserta" 
-                        placeholder="Cari berdasarkan Peserta..." 
-                        autocomplete="off"
-                        aria-label="Cari jadwal berdasarkan nama peserta"
-                        spellcheck="false"
-                    >
-                    <div id="jadwal-search-results" class="search-results-list" role="listbox" aria-label="Hasil pencarian peserta"></div>
-                </div>
-            </div>
-        </section>
+  <main>
+  <div class="filter-container">
+  <select id="filter-institusi"></select>
+  <select id="filter-mapel"></select>
+  <div class="participant-search-wrapper">
+    <input type="text" id="filter-peserta" placeholder="Cari berdasarkan Peserta..." autocomplete="off">
+    <div id="jadwal-search-results" class="search-results-list"></div>
+  </div>
+  </div>
 
-        <div id="loading-indicator" class="loading-indicator" style="display: none;" role="status" aria-live="polite">
-            <div class="loading-spinner"></div>
-            <span>Memuat data...</span>
-        </div>
+  <div id="loading-indicator" style="display: none;">Memuat data...</div>
 
-        <section class="table-section" aria-labelledby="table-heading">
-            <h2 id="table-heading" class="sr-only">Daftar Jadwal</h2>
-            <div class="table-container">
-                <table id="jadwal-table" role="table" aria-label="Tabel jadwal dengan informasi tanggal, mata pelajaran, dan peserta">
-                    <thead>
-                        <tr role="row">
-                            <th scope="col" role="columnheader" aria-sort="none">
-                                <span class="th-content">
-                                    <span class="th-icon" aria-hidden="true">📅</span>
-                                    Tanggal
-                                </span>
-                            </th>
-                            <th scope="col" role="columnheader" aria-sort="none">
-                                <span class="th-content">
-                                    <span class="th-icon" aria-hidden="true">📚</span>
-                                    Mata Pelajaran
-                                </span>
-                            </th>
-                            <th scope="col" role="columnheader" aria-sort="none">
-                                <span class="th-content">
-                                    <span class="th-icon" aria-hidden="true">👤</span>
-                                    Peserta
-                                </span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </section>
-    </main>
-    <!-- Scripts -->
-    <script src="idb.js?v=1726559619"></script>
-    <script src="db.js?v=1726559619"></script>
-    <script src="app.js?v=1726559619"></script>
-    <script src="script.js?v=1726559619"></script>
-</body>
-</html>
+  <table id="jadwal-table">
+  <thead>
+  <tr>
+  <th>Tanggal</th>
+  <th>Mata Pelajaran</th>
+  <th>Peserta</th>
+  </tr>
+  </thead>
+  <tbody>
+  </tbody>
+  </table>
+  </main>
+  <script src="idb.js?v=1726559619"></script>
+  <script src="db.js?v=1726559619"></script>
+  <script src="app.js?v=1726559619"></script>
+  <script src="script.js?v=1726559619"></script>
+ </body>
+ </html>
