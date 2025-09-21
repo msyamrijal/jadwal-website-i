@@ -1,12 +1,16 @@
-const CACHE_NAME = 'jadwal-presentasi-v15-firebase'; // Versi baru dengan Firebase
+const CACHE_NAME = 'jadwal-presentasi-v16-auth'; // Versi baru dengan halaman login
 const urlsToCache = [
   '/',
   'index.html',
   'jadwal.html', // Menambahkan jadwal.html
+  'login.html',
+  'register.html',
+  'dashboard.html',
   'style.css',
   'script.js',
   'idb.js', // File library IDB lokal
   'firebase-config.js', // File konfigurasi Firebase
+  'login.js',
   'db.js', // File database baru
   'app.js', // File baru
   'rekap.js',
