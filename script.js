@@ -24,7 +24,7 @@ let allData = []; // Variabel untuk menyimpan semua data asli dari spreadsheet
     console.error("Gagal memuat data:", error);
     // Hanya tampilkan error jika tidak ada data sama sekali (bahkan dari cache)
     if (allData.length === 0) {
-      document.querySelector("#jadwal-table tbody").innerHTML = `<tr><td colspan="3" style="text-align:center; color: red;">Gagal memuat data. Periksa koneksi atau URL spreadsheet.</td></tr>`;
+      document.querySelector("#jadwal-table tbody").innerHTML = `<tr><td colspan="3" style="text-align:center; color: red;">Gagal memuat data. Periksa koneksi internet Anda.</td></tr>`;
     }
   } finally {
     // Blok ini DIJAMIN akan selalu berjalan, baik sukses maupun gagal.
