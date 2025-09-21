@@ -42,7 +42,7 @@ function processScheduleData(parsedData) {
   today.setHours(0, 0, 0, 0);
 
   allData = parsedData
-    .map(row => ({ ...row, dateObject: parseDateFromString(row.Tanggal) }))
+    // .map(row => ({ ...row, dateObject: parseDateFromString(row.Tanggal) })) // Baris ini tidak diperlukan lagi karena dateObject sudah ada
     .filter(row => row.dateObject && row.dateObject >= today)
     .sort((a, b) => a.dateObject - b.dateObject);
 
